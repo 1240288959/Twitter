@@ -7,7 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
 
 @Controller
 
@@ -15,6 +21,7 @@ public class UserControl {
     private static final Logger logger=LoggerFactory.getLogger(UserControl.class);
     @Autowired
     private UserServiceimpl userServiceimpl;
+
     @RequestMapping("/tologin")
     public String tologin(){
         return "login";
@@ -26,5 +33,17 @@ public class UserControl {
         logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
         System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);
         return userServiceimpl.login(email,password);
+    }
+
+    @RequestMapping("/toregister")
+    public String toregister(){
+        return "register";
+    }
+
+    @RequestMapping("/register")
+    @ResponseBody
+    public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday){
+        logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
+        return userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
     }
 }

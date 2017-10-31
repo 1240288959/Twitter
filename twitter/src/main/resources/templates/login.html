@@ -32,16 +32,19 @@
         $.ajax({
             url:"/login",
             type:"get",
+            async:true,
             dataType:"json",
             data:$("#myform").serialize(),
             success:function (msg) {
                 console.log(msg);
                 if(msg==true)
-                    alert("登陆成功");
+                   alert("登陆成功");
                 else
                     alert("登陆失败");
+                return false;
             }
         });
+        return false;
     });
 </script>>
 </html>

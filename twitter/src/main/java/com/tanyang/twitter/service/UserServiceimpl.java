@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 @Service
-public class UserServiceimpl {
+public class UserServiceimpl implements UserService {
 
     private static final Logger logger= LoggerFactory.getLogger(UserServiceimpl.class);
     @Autowired
@@ -29,5 +31,24 @@ public class UserServiceimpl {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday) {
+        User user=new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setRealname(realname);
+        user.setGender(gender);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setBirthday(birthday);
+        try{
+            user=userDao.save(user);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }
