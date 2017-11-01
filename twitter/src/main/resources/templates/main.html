@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+</head>
+<body>
+<div th:include="nav :: nav"></div>
+<ul class="media-list">
+    <li th:each="twitter:${list}" class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="${twitter.user.image}" alt="此处为头像"/>
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading" th:text="${twitter.title}"></h4>
+            <span th:text="${twitter.date}"></span>
+            <span th:text="${twitter.content}"></span>
+        </div>
+    </li>
+</ul>
+</body>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+</html>

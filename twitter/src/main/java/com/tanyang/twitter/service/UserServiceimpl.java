@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 
 @Service
@@ -16,16 +17,17 @@ public class UserServiceimpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    public boolean login(String email,String password){
+    public boolean login(String email, String password, HttpSession session){
         User user=null;
         try{
             user =userDao.getUserByEmailAndPassword(email,password);
-            logger.debug("UserService层:login方法:中间产物:User:"+user);
-            System.out.println("UserService层:login方法:中间产物:User:"+user);
+            session.setAttribute("id",user.getId());
+            session.setAttribute("img",user.getImage());
+            logger.info("UserId为"+user.getId());
+            logger.info("UserService层:login方法:中间产物:User:"+user);
         }catch (Exception e){
             e.printStackTrace();
-            logger.debug("UserService层:login方法没有获取到对象");
-            System.out.println("UserService层:login方法:没有获取到对象");
+            logger.info("UserService层:login方法没有获取到对象");
         }
         if(user==null){
             return false;

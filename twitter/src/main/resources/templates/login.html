@@ -37,8 +37,10 @@
             data:$("#myform").serialize(),
             success:function (msg) {
                 console.log(msg);
-                if(msg==true)
-                   alert("登陆成功");
+                if(msg==true) {
+                    alert("登陆成功");
+                    location.href="/tomain";
+                }
                 else
                     alert("登陆失败");
                 return false;
