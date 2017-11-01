@@ -1,6 +1,7 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.dao.UserDao;
+import com.tanyang.twitter.service.EmailService;
 import com.tanyang.twitter.service.UserServiceimpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ public class UserControl {
     private static final Logger logger=LoggerFactory.getLogger(UserControl.class);
     @Autowired
     private UserServiceimpl userServiceimpl;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -44,6 +47,19 @@ public class UserControl {
     @ResponseBody
     public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday){
         logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
-        return userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
+        boolean flag= userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
+        if(flag==true){
+            emailService.sendSimpleMail(email);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @RequestMapping("/vertify")
+    public String vertify(String email){
+        logger.info(email);
+        userServiceimpl.vertify(email);
+        return "vertify";
     }
 }

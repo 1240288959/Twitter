@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>验证页面</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+</head>
+<body>
+    <h1>恭喜验证成功</h1>
+    <a id="a"></a>
+</body>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+<script>
+    var count=5;
+    setInterval(function () {
+        $("#a").text("还有"+count+"s自动跳转");
+        console.log(count);
+        if(count==0){
+            location.href="/tologin";
+        }
+        count--;
+    },1000)
+</script>
+</html>

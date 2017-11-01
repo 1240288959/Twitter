@@ -51,4 +51,19 @@ public class UserServiceimpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public boolean vertify(String email) {
+        int flag=0;
+        try{
+            flag=userDao.updateStatusByEmail(email);
+            if(flag==1)
+                return true;
+            else
+                return false;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
+        }
+    }
 }

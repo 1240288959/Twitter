@@ -13,7 +13,7 @@ public class EmailConfig {
 
     public EmailConfig() {
         this.title="用户验证邮件";
-        this.Content="恭喜你账户已经验证成功";
+        this.Content=null;
     }
 
     public String getEmailFrom(){
