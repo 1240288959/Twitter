@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TwitterService {
     List<Twitter> getTwitterByAttention(String id);
+
+    List<Twitter> getTwitterByUserId(String id);
 }

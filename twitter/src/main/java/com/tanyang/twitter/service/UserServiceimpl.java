@@ -21,8 +21,7 @@ public class UserServiceimpl implements UserService {
         User user=null;
         try{
             user =userDao.getUserByEmailAndPassword(email,password);
-            session.setAttribute("id",user.getId());
-            session.setAttribute("img",user.getImage());
+            session.setAttribute("user",user);
             logger.info("UserId为"+user.getId());
             logger.info("UserService层:login方法:中间产物:User:"+user);
         }catch (Exception e){

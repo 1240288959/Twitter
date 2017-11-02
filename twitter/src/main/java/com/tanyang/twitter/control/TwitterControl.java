@@ -1,6 +1,7 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.pojo.Twitter;
+import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.TwitterServiceimpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,20 @@ public class TwitterControl {
     private TwitterServiceimpl twitterServiceimpl;
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
-        String id=session.getAttribute("id").toString();
-        logger.info("id :"+id);
-        List<Twitter> list=twitterServiceimpl.getTwitterByAttention(id);
+        User user=(User)session.getAttribute("user");
+        logger.info("id :"+user.getId());
+        List<Twitter> list=twitterServiceimpl.getTwitterByAttention(user.getId());
         model.addAttribute("list",list);
         logger.info("list:"+list);
         return "main";
+    }
+
+    @RequestMapping("/tomypage")
+    public String getMyAttention(Model model,HttpSession session){
+        User user=(User)session.getAttribute("user");
+        List<Twitter> list=twitterServiceimpl.getTwitterByUserId(user.getId());
+        model.addAttribute("list",list);
+        logger.info("list:"+list);
+        return "mypage";
     }
 }

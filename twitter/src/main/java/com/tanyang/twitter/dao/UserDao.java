@@ -17,4 +17,5 @@ public interface UserDao extends JpaRepository<User,String> {
     @Query(value="update user set status = 1 where email = :email",nativeQuery = true)
     @Modifying
     Integer updateStatusByEmail(@Param("email") String email);
+
 }

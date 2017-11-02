@@ -11,8 +11,14 @@ import java.util.List;
 public class TwitterServiceimpl implements TwitterService{
     @Autowired
     private TwitterDao twitterDao;
+
     @Override
     public List<Twitter> getTwitterByAttention(String id) {
         return twitterDao.getTwitterByAttention(id);
+    }
+
+    @Override
+    public List<Twitter> getTwitterByUserId(String id) {
+        return twitterDao.getTwitterByUserId(id);
     }
 }

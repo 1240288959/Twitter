@@ -6,6 +6,14 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
+<div id="mymsg">
+    <img src="" id="myimage" alt="..此处为自己的头像"/>
+    <span th:text="${session.user.name}"></span>
+    <div id="attentioned">
+        <span>关注</span>
+    </div>
+</div>
+<div id="twitter">
 <ul class="media-list">
     <li th:each="twitter:${list}" class="media">
         <div class="media-left">
@@ -20,7 +28,16 @@
         </div>
     </li>
 </ul>
+</div>
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
 <script th:src="@{js/bootstrap.js}"></script>
+<script>
+$("#myimage").click(function () {
+    location.href="/tomypage";
+});
+$("#attentioned").click(function () {
+   location.href="/toattented";
+});
+</script>
 </html>
