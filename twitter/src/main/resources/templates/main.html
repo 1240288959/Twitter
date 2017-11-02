@@ -6,14 +6,14 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<div id="mymsg">
+<div id="mymsg" class="col-xs-4">
     <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像"/>
     <span th:text="${session.user.name}"></span>
     <div id="attentioned">
         <span>关注</span>
     </div>
 </div>
-<div id="twitter">
+<div id="twitter"class="col-xs-8">
 <ul class="media-list">
     <li th:each="twitter:${list}" class="media">
         <div class="media-left">
