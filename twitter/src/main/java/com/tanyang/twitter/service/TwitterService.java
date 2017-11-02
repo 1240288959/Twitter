@@ -8,4 +8,6 @@ public interface TwitterService {
     List<Twitter> getTwitterByAttention(String id);
 
     List<Twitter> getTwitterByUserId(String id);
+
+    boolean addTwitter(Twitter twitter);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,4 +24,17 @@ public class AttentionControl {
         model.addAttribute("list",list);
         return "attented";
     };
+
+    @RequestMapping("/addattented")
+    @ResponseBody
+    public boolean addAttented(String id,HttpSession session){
+        User user=(User)session.getAttribute("user");
+        return attentionServiceimpl.addAttented(user.getName(),id);
+    }
+
+    @RequestMapping("/deleteattented")
+    @ResponseBody
+    public boolean deleteByAttented(String id){
+        return attentionServiceimpl.deleteByAttented(id);
+    }
 }

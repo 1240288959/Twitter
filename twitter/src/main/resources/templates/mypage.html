@@ -41,6 +41,7 @@
                }else{
                    alert("success");
                }
+               return false;
             },
             error:function (msg) {
                 if(msg==false){
@@ -48,8 +49,10 @@
                 }else{
                     alert("success");
                 }
+                return false;
             }
        });
+        return false;
     });
 </script>
 </html>

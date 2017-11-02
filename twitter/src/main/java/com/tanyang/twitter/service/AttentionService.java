@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface AttentionService {
     List<User> getAttented(String id);
+
+    boolean addAttented(String Attent,String Attented);
+
+    boolean deleteByAttented(String id);
 }

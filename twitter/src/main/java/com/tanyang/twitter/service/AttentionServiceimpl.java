@@ -2,6 +2,7 @@ package com.tanyang.twitter.service;
 
 import com.tanyang.twitter.dao.AttentionDao;
 import com.tanyang.twitter.dao.UserDao;
+import com.tanyang.twitter.pojo.Attention;
 import com.tanyang.twitter.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,5 +31,32 @@ public class AttentionServiceimpl implements AttentionService {
             userlist.add(user);
         }
         return userlist;
+    }
+
+    @Override
+    public boolean addAttented(String Attent, String Attented) {
+        Attention attention=new Attention();
+        User uattent=userDao.findOne(Attent);
+        User uattented=userDao.findOne(Attented);
+        attention.setAttent(uattent);
+        attention.setAttented(uattented);
+        try{
+            attentionDao.save(attention);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean deleteByAttented(String id) {
+        try{
+            attentionDao.deleteByAttented(id);
+            return  true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
