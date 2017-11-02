@@ -69,7 +69,7 @@ public class UserControl {
     @ResponseBody
     public boolean setImage(@RequestParam("image") MultipartFile image,HttpSession session){
         String img_name=null;
-        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\ ";
+        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\";
         logger.info("文件路径为： "+file_path);
         if(image==null){
             logger.info("文件为空");
@@ -88,6 +88,8 @@ public class UserControl {
         }
         User user=(User)session.getAttribute("user");
         userServiceimpl.setImage(img_name,user.getId());
+        user.setImage(img_name);
+        session.setAttribute("user",user);
         return true;
     }
 
