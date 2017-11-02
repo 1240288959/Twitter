@@ -1,6 +1,7 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.dao.UserDao;
+import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.EmailService;
 import com.tanyang.twitter.service.UserServiceimpl;
 import org.slf4j.Logger;
@@ -64,5 +65,30 @@ public class UserControl {
         return "vertify";
     }
 
+    @RequestMapping("/setImage")
+    @ResponseBody
+    public boolean setImage(@RequestParam("image") MultipartFile image,HttpSession session){
+        String img_name=null;
+        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\ ";
+        logger.info("文件路径为： "+file_path);
+        if(image==null){
+            logger.info("文件为空");
+        }
+        img_name=image.getOriginalFilename();
+        logger.info("文件名为："+img_name);
+        File file=new File(file_path+img_name);
+        if(!file.getParentFile().exists()){
+            file.getParentFile().mkdirs();
+        }
+        try{
+            image.transferTo(file);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        User user=(User)session.getAttribute("user");
+        userServiceimpl.setImage(img_name,user.getId());
+        return true;
+    }
 
 }

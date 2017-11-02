@@ -7,7 +7,7 @@
 <body>
 <div th:include="nav :: nav"></div>
 <div id="mymsg">
-    <img src="" id="myimage" alt="..此处为自己的头像"/>
+    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像"/>
     <span th:text="${session.user.name}"></span>
     <div id="attentioned">
         <span>关注</span>
@@ -18,7 +18,7 @@
     <li th:each="twitter:${list}" class="media">
         <div class="media-left">
             <a href="#">
-                <img class="media-object" src="${twitter.user.image}" alt="此处为头像"/>
+                <img class="media-object" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像"/>
             </a>
         </div>
         <div class="media-body">
@@ -37,7 +37,7 @@ $("#myimage").click(function () {
     location.href="/tomypage";
 });
 $("#attentioned").click(function () {
-   location.href="/toattented";
+   location.href="/toattention";
 });
 </script>
 </html>

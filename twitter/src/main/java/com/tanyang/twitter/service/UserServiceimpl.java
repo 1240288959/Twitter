@@ -67,4 +67,15 @@ public class UserServiceimpl implements UserService {
             return  false;
         }
     }
+
+    @Override
+    public boolean setImage(String image, String id) {
+        try{
+            userDao.updateImageById(image,id);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
+        }
+    }
 }

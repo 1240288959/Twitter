@@ -9,6 +9,8 @@
 <div th:include="nav :: nav"></div>
 <div>
     <img src="" alt="此处应该有my头像" />
+    <button id="upload" class="btn primary-btn">更改头像</button>
+    <input id="fileupload" type="file" name="image" />
     <span th:text="${session.user.name}"></span>
 </div>
 <div>
@@ -23,4 +25,31 @@
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
 <script th:src="@{js/bootstrap.js}"></script>
+<script th:src="@{js/ajaxfileupload .js}"></script>
+<script>
+    $("#upload").on("click",function () {
+        $("#fileupload").click();
+    });
+    $("#fileupload").on('change',function () {
+        $.ajaxFileUpload({
+           url:"/setImage",
+           secureuri:false,
+           fileElementId:'fileupload',
+           success:function (msg) {
+               if(msg==false){
+                   alert("false");
+               }else{
+                   alert("success");
+               }
+            },
+            error:function (msg) {
+                if(msg==false){
+                    alert("false");
+                }else{
+                    alert("success");
+                }
+            }
+       });
+    });
+</script>
 </html>
