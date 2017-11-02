@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <title>我的主页</title>
+</head>
+<body>
+<div th:include="nav :: nav"></div>
+<div>
+    <img src="" alt="此处应该有my头像" />
+    <span th:text="${session.user.name}"></span>
+</div>
+<div>
+    <!---此处是显示个人推特的地方-->
+    <div th:each="twitter:${list}">
+        <h4 class="media-heading" th:text="${twitter.title}"></h4>
+        <span th:text="${twitter.date}"></span>
+        <span th:text="${twitter.content}"></span>
+    </div>
+
+</div>
+</body>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+</html>

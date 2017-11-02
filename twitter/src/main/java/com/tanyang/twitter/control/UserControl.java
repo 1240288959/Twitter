@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -32,10 +33,10 @@ public class UserControl {
 
     @RequestMapping("/login")
     @ResponseBody
-    public boolean login(String email,String password){
+    public boolean login(String email, String password, HttpSession session){
         logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
         System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);
-        return userServiceimpl.login(email,password);
+        return userServiceimpl.login(email,password,session);
     }
 
     @RequestMapping("/toregister")
@@ -62,4 +63,6 @@ public class UserControl {
         userServiceimpl.vertify(email);
         return "vertify";
     }
+
+
 }
