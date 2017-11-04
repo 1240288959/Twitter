@@ -12,5 +12,5 @@ public interface AttentionService {
 
     boolean deleteByAttented(String id);
 
-    Attention getAttention(String attent,String attented);
+    boolean getAttention(String attent,String attented);
 }

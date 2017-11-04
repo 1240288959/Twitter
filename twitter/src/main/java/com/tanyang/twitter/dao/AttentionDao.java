@@ -23,5 +23,6 @@ public interface AttentionDao extends JpaRepository<Attention,String>{
     @Modifying
     Integer deleteByAttented(@Param("id") String id);
 
-    Attention getAttentionByAttentAndAndAttented(String attent,String attented);
+    @Query(value = "select * from attention where attent=:attent and attented= :attented",nativeQuery = true)
+    Attention getAttentionByAttentAndAndAttented(@Param("attent") String attent,@Param("attented") String attented);
 }

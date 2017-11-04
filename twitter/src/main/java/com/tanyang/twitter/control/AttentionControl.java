@@ -3,6 +3,8 @@ package com.tanyang.twitter.control;
 import com.tanyang.twitter.pojo.Attention;
 import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.AttentionServiceimpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class AttentionControl {
+
+    private Logger logger= LoggerFactory.getLogger(AttentionControl.class);
 
     @Autowired
     private AttentionServiceimpl attentionServiceimpl;
@@ -30,7 +34,7 @@ public class AttentionControl {
     @ResponseBody
     public boolean addAttented(String id,HttpSession session){
         User user=(User)session.getAttribute("user");
-        return attentionServiceimpl.addAttented(user.getName(),id);
+        return attentionServiceimpl.addAttented(user.getId(),id);
     }
 
     @RequestMapping("/deleteattented")
@@ -39,20 +43,5 @@ public class AttentionControl {
         return attentionServiceimpl.deleteByAttented(id);
     }
 
-    @RequestMapping("/getattention")
-    @ResponseBody
-    public boolean getattention(String attent,String attented){
-        Attention attention=null;
-        try{
-            attention=attentionServiceimpl.getAttention(attent,attented);
-            if(attention!=null&&attention.getAttent()!=null){
-                return true;
-            }else{
-                return false;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
+
 }

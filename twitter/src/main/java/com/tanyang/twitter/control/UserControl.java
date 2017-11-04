@@ -1,9 +1,10 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.dao.UserDao;
+import com.tanyang.twitter.pojo.AttentedUser;
+import com.tanyang.twitter.pojo.Attention;
 import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.EmailService;
-import com.tanyang.twitter.service.UserServiceimpl;
+import com.tanyang.twitter.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,7 +29,9 @@ public class UserControl {
     @Autowired
     private UserServiceimpl userServiceimpl;
     @Autowired
-    private EmailService emailService;
+    private EmailServiceimpl emailServiceimpl;
+    @Autowired
+    private AttentionServiceimpl attentionServiceimpl;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -53,7 +57,7 @@ public class UserControl {
         logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
         boolean flag= userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
         if(flag==true){
-            emailService.sendSimpleMail(email);
+            emailServiceimpl.sendSimpleMail(email);
             return true;
         }else{
             return false;
@@ -96,14 +100,22 @@ public class UserControl {
     }
 
     @RequestMapping("/tosearched")
-    public String searchuser(String name,Model model){
-        List<User> list=null;
+    public String searchuser(String name,Model model,HttpSession session){
+        String attentId=((User)session.getAttribute("user")).getId();
+        List<User> userlist=null;
+        List<AttentedUser> attentedUserList=new ArrayList<>();
         try{
-            list=userServiceimpl.searchUser(name);
+            userlist=userServiceimpl.searchUser(name);
+            for(User user:userlist){
+                boolean attented=attentionServiceimpl.getAttention(attentId,user.getId());
+                AttentedUser attentedUser=new AttentedUser(user,attented);
+                logger.info(attentedUser.toString());
+                attentedUserList.add(attentedUser);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-        model.addAttribute("list",list);
+        model.addAttribute("list",attentedUserList);
         return "searched";
     }
 }

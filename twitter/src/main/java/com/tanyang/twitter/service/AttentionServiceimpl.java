@@ -61,7 +61,17 @@ public class AttentionServiceimpl implements AttentionService {
     }
 
     @Override
-    public Attention getAttention(String attent, String attented) {
-        return attentionDao.getAttentionByAttentAndAndAttented(attent,attented);
+    public boolean getAttention(String attent, String attented) {
+        Attention attention=null;
+        try{
+            attention=attentionDao.getAttentionByAttentAndAndAttented(attent,attented);
+            if(attention==null||attention.getAttent()==null||attention.getAttented()==null){
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
+        }
     }
 }
