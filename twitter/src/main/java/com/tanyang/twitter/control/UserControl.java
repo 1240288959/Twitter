@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 @Controller
 
@@ -93,4 +95,15 @@ public class UserControl {
         return true;
     }
 
+    @RequestMapping("/tosearched")
+    public String searchuser(String name,Model model){
+        List<User> list=null;
+        try{
+            list=userServiceimpl.searchUser(name);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        model.addAttribute("list",list);
+        return "searched";
+    }
 }

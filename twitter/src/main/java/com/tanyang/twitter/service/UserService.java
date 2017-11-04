@@ -1,7 +1,10 @@
 package com.tanyang.twitter.service;
 
+import com.tanyang.twitter.pojo.User;
+
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.List;
 
 public interface UserService  {
 
@@ -12,4 +15,6 @@ public interface UserService  {
     boolean vertify(String email);
 
     boolean setImage(String image,String id);
+
+    List<User> searchUser(String name);
 }

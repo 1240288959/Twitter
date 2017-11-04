@@ -59,4 +59,9 @@ public class AttentionServiceimpl implements AttentionService {
             return false;
         }
     }
+
+    @Override
+    public Attention getAttention(String attent, String attented) {
+        return attentionDao.getAttentionByAttentAndAndAttented(attent,attented);
+    }
 }

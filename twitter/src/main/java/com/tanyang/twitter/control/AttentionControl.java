@@ -1,5 +1,6 @@
 package com.tanyang.twitter.control;
 
+import com.tanyang.twitter.pojo.Attention;
 import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.AttentionServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,22 @@ public class AttentionControl {
     @ResponseBody
     public boolean deleteByAttented(String id){
         return attentionServiceimpl.deleteByAttented(id);
+    }
+
+    @RequestMapping("/getattention")
+    @ResponseBody
+    public boolean getattention(String attent,String attented){
+        Attention attention=null;
+        try{
+            attention=attentionServiceimpl.getAttention(attent,attented);
+            if(attention!=null&&attention.getAttent()!=null){
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

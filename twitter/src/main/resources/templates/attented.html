@@ -8,7 +8,7 @@
 <body>
 <div th:include="nav :: nav"></div>
 <div th:each="user:${list}">
-    <img src="" alt="...此处为被关注者的头像"/>
+    <img th:src="@{'img/'+${user.image}}" alt="...此处为被关注者的头像"/>
     <button class="btn btn-primary" th:onclick="'deleteattented(\''+${user.id}+'\',this)'" >关注中</button>
     <span th:text="${user.name}"></span>
 </div>
