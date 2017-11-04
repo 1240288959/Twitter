@@ -6,31 +6,28 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<div id="mymsg" class="col-sm-4">
-    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像" class="img-circle"
-         style="width: 100px;height: 100px"/>
+<div id="mymsg" class="col-xs-4">
+    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像"/>
     <span th:text="${session.user.name}"></span>
     <div id="attentioned">
         <span>关注</span>
     </div>
 </div>
-<div id="twitter" class="col-sm-8">
-    <ul class="media-list">
-        <li th:each="twitter:${list}" class="media">
-            <div style="float: left">
-                <a href="#">
-                    <img class="media-object img-circle" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像" style="width: 100px;height: 100px"/>
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading" th:text="${twitter.title}"></h4>
-                <span th:text="${twitter.date}"></span>
-                <div style="width: 200px;word-break:break-all;">
-                    <p th:text="${twitter.content}"></p>
-                </div>
-            </div>
-        </li>
-    </ul>
+<div id="twitter"class="col-xs-8">
+<ul class="media-list">
+    <li th:each="twitter:${list}" class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像"/>
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading" th:text="${twitter.title}"></h4>
+            <span th:text="${twitter.date}"></span>
+            <span th:text="${twitter.content}"></span>
+        </div>
+    </li>
+</ul>
 </div>
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
