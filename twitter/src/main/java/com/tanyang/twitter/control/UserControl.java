@@ -3,6 +3,7 @@ package com.tanyang.twitter.control;
 import com.tanyang.twitter.dao.UserDao;
 import com.tanyang.twitter.pojo.AttentedUser;
 import com.tanyang.twitter.pojo.Attention;
+import com.tanyang.twitter.pojo.Twitter;
 import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.*;
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class UserControl {
     private EmailServiceimpl emailServiceimpl;
     @Autowired
     private AttentionServiceimpl attentionServiceimpl;
+    @Autowired
+    private TwitterServiceimpl twitterServiceimpl;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -117,5 +120,21 @@ public class UserControl {
         }
         model.addAttribute("list",attentedUserList);
         return "searched";
+    }
+
+    @RequestMapping("/tootherspage")
+    public String otherspage(String id,Model model,HttpSession session){
+        logger.info("id:"+id);
+        AttentedUser attentedUser=new AttentedUser();
+        User user=(User)session.getAttribute("user");
+        User otheruser=userServiceimpl.findUser(id);
+        logger.info("user:"+otheruser);
+        boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
+        attentedUser.setUser(otheruser);
+        attentedUser.setAttented(attented);
+        model.addAttribute("attenteduser",attentedUser);
+        List<Twitter> list=twitterServiceimpl.getTwitterByUserId(id);
+        model.addAttribute("list",list);
+        return "otherspage";
     }
 }

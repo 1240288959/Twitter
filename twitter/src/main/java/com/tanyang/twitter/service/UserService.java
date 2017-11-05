@@ -17,4 +17,6 @@ public interface UserService  {
     boolean setImage(String image,String id);
 
     List<User> searchUser(String name);
+
+    User findUser(String id);
 }

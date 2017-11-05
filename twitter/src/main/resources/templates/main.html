@@ -22,8 +22,10 @@
                     <img class="media-object img-circle" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像" style="width: 100px;height: 100px"/>
                 </a>
             </div>
-            <div class="media-body">
+            <div class="media-body" th:onclick="'showmodal(\''+${twitter.title}+'\',\''+${twitter.user.name}+'\',
+            \''+${twitter.date}+'\',\''+${twitter.content}+'\')'">
                 <h4 class="media-heading" th:text="${twitter.title}"></h4>
+                <span th:text="${twitter.user.name}"></span>
                 <span th:text="${twitter.date}"></span>
                 <div style="width: 200px;word-break:break-all;">
                     <p th:text="${twitter.content}"></p>
@@ -31,6 +33,30 @@
             </div>
         </li>
     </ul>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" ></h4>
+                </div>
+                <div class="modal-body">
+                    <span id="modal-username"></span>
+                    <span id="modal-date"></span>
+                    <div id="modal-content" style="width: 200px;word-break:break-all;">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">
+                        回复
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
@@ -41,6 +67,16 @@
     });
     $("#attentioned").click(function () {
         location.href="/toattented";
+    });
+    function showmodal(title,username,date,content) {
+        $("#myModal h4").html(title);
+        $("#modal-username").html(date);
+        $("#modal-date").html(date);
+        $("#modal-content p").html(content);
+        $("#myModal").modal("show");
+    }
+    $("#myModal").on("hidden",function () {
+        $(this).removeData();
     });
 </script>
 </html>

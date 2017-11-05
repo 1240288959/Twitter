@@ -72,4 +72,14 @@ public class Twitter {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Twitter{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                ", user=" + user +
+                '}';
+    }
 }

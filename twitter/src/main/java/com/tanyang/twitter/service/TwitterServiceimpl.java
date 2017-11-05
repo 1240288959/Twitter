@@ -23,7 +23,7 @@ public class TwitterServiceimpl implements TwitterService{
     }
 
     @Override
-    public boolean addTwitter(Twitter twitter) {
+    public boolean deliveryTwitter(Twitter twitter) {
         try{
             twitterDao.save(twitter);
             return true;

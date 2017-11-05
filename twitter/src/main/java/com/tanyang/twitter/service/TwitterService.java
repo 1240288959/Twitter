@@ -9,5 +9,5 @@ public interface TwitterService {
 
     List<Twitter> getTwitterByUserId(String id);
 
-    boolean addTwitter(Twitter twitter);
+    boolean deliveryTwitter(Twitter twitter);
 }

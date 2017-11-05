@@ -84,4 +84,15 @@ public class UserServiceimpl implements UserService {
     public List<User> searchUser(String name) {
         return userDao.getUserByName(name);
     }
+
+    @Override
+    public User findUser(String id) {
+        User user=null;
+        try{
+            user=userDao.findOne(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
 }

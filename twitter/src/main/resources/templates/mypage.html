@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
     <title>我的主页</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
 <body>
 <div th:include="nav :: nav"></div>
 <div>
-    <img src="" alt="此处应该有my头像" />
+    <img th:src="@{'img/'+${session.user.image}}" alt="此处应该有my头像" />
     <button id="upload" class="btn primary-btn">更改头像</button>
-    <input id="fileupload" type="file" name="image" />
+    <input id="fileupload" type="file" name="image" style="display:none;"/>
     <span th:text="${session.user.name}"></span>
 </div>
 <div>
