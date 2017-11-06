@@ -3,7 +3,7 @@ package com.tanyang.twitter.pojo;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
-@Component
+
 public class AttentedUser {
     private User user;
     private boolean attented;

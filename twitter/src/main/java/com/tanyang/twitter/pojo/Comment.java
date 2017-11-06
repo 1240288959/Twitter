@@ -26,6 +26,7 @@ public class Comment {
 
     public Comment() {
         this.id= UUIDutil.getUUID();
+        this.date=new Date(System.currentTimeMillis());
     }
 
     public String getId() {
