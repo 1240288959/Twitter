@@ -10,4 +10,6 @@ public interface TwitterService {
     List<Twitter> getTwitterByUserId(String id);
 
     boolean deliveryTwitter(Twitter twitter);
+
+    Twitter getTwitterById(String twitterid);
 }

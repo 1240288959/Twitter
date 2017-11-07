@@ -1,0 +1,14 @@
+<div th:fragment="comment" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:each="comment:${commentlist}" class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="" alt="此处应该有头像"/>
+            </a>
+        </div>
+        <div class="media-body">
+            <span th:text="${comment.content}"></span>.
+            <span th:text="${comment.date}"></span>
+        </div>
+    </div>
+</div>
+>

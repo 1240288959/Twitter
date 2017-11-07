@@ -32,4 +32,15 @@ public class TwitterServiceimpl implements TwitterService{
             return false;
         }
     }
+
+    @Override
+    public Twitter getTwitterById(String twitterid){
+        Twitter twitter=null;
+        try{
+            twitter=twitterDao.findOne(twitterid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  twitter;
+    }
 }

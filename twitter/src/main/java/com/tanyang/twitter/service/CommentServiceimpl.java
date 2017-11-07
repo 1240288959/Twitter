@@ -28,7 +28,7 @@ public class CommentServiceimpl implements CommentService {
     public List<Comment> getCommentByTwitterId(Twitter twitter) {
         List<Comment> list=null;
         try{
-            list=commentDao.getAllByTwitter(twitter);
+            list=commentDao.getAllByTwitterId(twitter.getId());
         }catch (Exception e){
             e.printStackTrace();
         }
