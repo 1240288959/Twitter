@@ -2,42 +2,149 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
+    <title>主页</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<div id="mymsg">
-    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像"/>
+<div id="mymsg" class="col-sm-4">
+    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像" class="img-circle"
+         style="width: 100px;height: 100px"/>
     <span th:text="${session.user.name}"></span>
     <div id="attentioned">
         <span>关注</span>
     </div>
 </div>
-<div id="twitter">
-<ul class="media-list">
-    <li th:each="twitter:${list}" class="media">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像"/>
-            </a>
+<div id="twitter" class="col-sm-8">
+    <ul class="media-list">
+        <li th:each="twitter:${list}" class="media">
+            <div style="float: left">
+                <a href="#">
+                    <img class="media-object img-circle" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像" style="width: 100px;height: 100px"/>
+                </a>
+            </div>
+            <div class="media-body" th:onclick="'showmodal(\''+${twitter.id}+'\',\''+${twitter.title}+'\',\''+${twitter.user.name}+'\',
+            \''+${twitter.date}+'\',\''+${twitter.content}+'\')'">
+                <h4 class="media-heading" th:text="${twitter.title}"></h4>
+                <span th:text="${twitter.user.name}"></span>
+                <span th:text="${twitter.date}"></span>
+                <div style="width: 200px;word-break:break-all;">
+                    <p th:text="${twitter.content}"></p>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" ></h4>
+                </div>
+                <div class="modal-body">
+                    <span id="modal-id"></span>
+                    <span id="modal-username"></span>
+                    <span id="modal-date"></span>
+                    <div id="modal-content" style="width: 200px;word-break:break-all;">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="text" name="comment" id="comment"/>
+                    <button id="addcomment"  type="button" class="btn btn-primary">
+                        回复
+                    </button>
+                    <div id="mydiv" ></div>
+                </div>
+            </div>
         </div>
-        <div class="media-body">
-            <h4 class="media-heading" th:text="${twitter.title}"></h4>
-            <span th:text="${twitter.date}"></span>
-            <span th:text="${twitter.content}"></span>
-        </div>
-    </li>
-</ul>
+    </div>
 </div>
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
 <script th:src="@{js/bootstrap.js}"></script>
 <script>
-$("#myimage").click(function () {
-    location.href="/tomypage";
-});
-$("#attentioned").click(function () {
-   location.href="/toattention";
-});
+    function updatacomment(id){
+        $("#mydiv").empty();
+        $.ajax({
+            url:"/getComment",
+            type:"get",
+            data:"twitterid="+id,
+            dataType:"json",
+            success:function (msg) {
+                console.log(msg);
+                for(var i in msg){
+                    console.log(msg[i]);
+                    var div=document.createElement("div");
+                    $(div).attr("class","media");
+                    var div1=document.createElement("div");
+                    $(div1).attr("class","media-left");
+                    var div2=document.createElement("div");
+                    $(div2).attr("class","media-body");
+
+                    var dcontent=document.createElement("span");
+                    $(dcontent).html(msg[i].content);
+
+                    var date=document.createElement("span");
+                    $(date).html(msg[i].date);
+
+                    var duser=document.createElement("span");
+                    $(duser).html(msg[i].user.name);
+
+                    $(div2).append(dcontent,date,duser);
+                    $(div).append(div1,div2);
+                    $("#mydiv").append(div);
+                }
+                return false;
+            }
+        });
+        return false;
+    }
+    $("#myimage").click(function () {
+        location.href="/tomypage";
+    });
+    $("#attentioned").click(function () {
+        location.href="/toattented";
+    });
+    function showmodal(id,title,username,date,content) {
+        console.log(id);
+
+        $("#myModal h4").html(title);
+        $("#modal-id").html(id);
+        $("#modal-username").html(date);
+        $("#modal-date").html(date);
+        $("#modal-content p").html(content);
+        updatacomment(id);
+        $("#myModal").modal("show");
+    }
+    $("#myModal").on("hidden",function () {
+        $(this).removeData();
+        $("#mydiv").remove();
+    });
+    
+    function addcomment() {
+        var id=$("#modal-id").html();
+        $.ajax({
+            url:"/addComment",
+            type:"get",
+            data:{
+                content:$("#comment").val(),
+                twitter:$("#modal-id").html()
+            },
+            success:function (msg) {
+                if(msg==true){
+                    updatacomment($("#modal-id").html());
+                    $("#comment").val("");
+                }
+                return false;
+            }
+        });
+        return false;
+    }
+    $("#addcomment").click(function () {
+        addcomment();
+    });
 </script>
 </html>

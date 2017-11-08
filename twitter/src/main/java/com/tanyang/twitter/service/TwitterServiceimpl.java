@@ -21,4 +21,26 @@ public class TwitterServiceimpl implements TwitterService{
     public List<Twitter> getTwitterByUserId(String id) {
         return twitterDao.getTwitterByUserId(id);
     }
+
+    @Override
+    public boolean deliveryTwitter(Twitter twitter) {
+        try{
+            twitterDao.save(twitter);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Twitter getTwitterById(String twitterid){
+        Twitter twitter=null;
+        try{
+            twitter=twitterDao.findOne(twitterid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  twitter;
+    }
 }

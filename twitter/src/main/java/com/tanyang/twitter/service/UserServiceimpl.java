@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.List;
 
 @Service
 public class UserServiceimpl implements UserService {
@@ -77,5 +78,21 @@ public class UserServiceimpl implements UserService {
             e.printStackTrace();
             return  false;
         }
+    }
+
+    @Override
+    public List<User> searchUser(String name) {
+        return userDao.getUserByName(name);
+    }
+
+    @Override
+    public User findUser(String id) {
+        User user=null;
+        try{
+            user=userDao.findOne(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
     }
 }

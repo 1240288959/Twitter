@@ -15,9 +15,6 @@ public class Comment {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name="parent")
-    private Comment parent;
-    @ManyToOne
     @JoinColumn(name="twitter")
     private Twitter twitter;
     @ManyToOne
@@ -26,6 +23,7 @@ public class Comment {
 
     public Comment() {
         this.id= UUIDutil.getUUID();
+        this.date=new Date(System.currentTimeMillis());
     }
 
     public String getId() {
@@ -52,14 +50,6 @@ public class Comment {
         this.date = date;
     }
 
-    public Comment getParent() {
-        return parent;
-    }
-
-    public void setParent(Comment parent) {
-        this.parent = parent;
-    }
-
     public Twitter getTwitter() {
         return twitter;
     }
@@ -82,7 +72,6 @@ public class Comment {
                 "id='" + id + '\'' +
                 ", content='" + content + '\'' +
                 ", date=" + date +
-                ", parent=" + parent +
                 ", twitter=" + twitter +
                 ", user=" + user +
                 '}';

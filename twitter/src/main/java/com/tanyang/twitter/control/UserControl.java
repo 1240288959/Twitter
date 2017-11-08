@@ -1,13 +1,16 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.dao.UserDao;
+import com.tanyang.twitter.pojo.AttentedUser;
+import com.tanyang.twitter.pojo.Attention;
+import com.tanyang.twitter.pojo.Twitter;
 import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.EmailService;
-import com.tanyang.twitter.service.UserServiceimpl;
+import com.tanyang.twitter.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 
@@ -25,7 +30,11 @@ public class UserControl {
     @Autowired
     private UserServiceimpl userServiceimpl;
     @Autowired
-    private EmailService emailService;
+    private EmailServiceimpl emailServiceimpl;
+    @Autowired
+    private AttentionServiceimpl attentionServiceimpl;
+    @Autowired
+    private TwitterServiceimpl twitterServiceimpl;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -51,7 +60,7 @@ public class UserControl {
         logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
         boolean flag= userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
         if(flag==true){
-            emailService.sendSimpleMail(email);
+            emailServiceimpl.sendSimpleMail(email);
             return true;
         }else{
             return false;
@@ -69,7 +78,7 @@ public class UserControl {
     @ResponseBody
     public boolean setImage(@RequestParam("image") MultipartFile image,HttpSession session){
         String img_name=null;
-        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\ ";
+        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\";
         logger.info("文件路径为： "+file_path);
         if(image==null){
             logger.info("文件为空");
@@ -88,7 +97,44 @@ public class UserControl {
         }
         User user=(User)session.getAttribute("user");
         userServiceimpl.setImage(img_name,user.getId());
+        user.setImage(img_name);
+        session.setAttribute("user",user);
         return true;
     }
 
+    @RequestMapping("/tosearched")
+    public String searchuser(String name,Model model,HttpSession session){
+        String attentId=((User)session.getAttribute("user")).getId();
+        List<User> userlist=null;
+        List<AttentedUser> attentedUserList=new ArrayList<>();
+        try{
+            userlist=userServiceimpl.searchUser(name);
+            for(User user:userlist){
+                boolean attented=attentionServiceimpl.getAttention(attentId,user.getId());
+                AttentedUser attentedUser=new AttentedUser(user,attented);
+                logger.info(attentedUser.toString());
+                attentedUserList.add(attentedUser);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        model.addAttribute("list",attentedUserList);
+        return "searched";
+    }
+
+    @RequestMapping("/tootherspage")
+    public String otherspage(String id,Model model,HttpSession session){
+        logger.info("id:"+id);
+        AttentedUser attentedUser=new AttentedUser();
+        User user=(User)session.getAttribute("user");
+        User otheruser=userServiceimpl.findUser(id);
+        logger.info("user:"+otheruser);
+        boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
+        attentedUser.setUser(otheruser);
+        attentedUser.setAttented(attented);
+        model.addAttribute("attenteduser",attentedUser);
+        List<Twitter> list=twitterServiceimpl.getTwitterByUserId(id);
+        model.addAttribute("list",list);
+        return "otherspage";
+    }
 }

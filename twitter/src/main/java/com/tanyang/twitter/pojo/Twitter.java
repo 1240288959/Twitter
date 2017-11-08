@@ -19,8 +19,17 @@ public class Twitter {
     @JoinColumn(name="user")
     private User user;
 
+    public Twitter(String id, String title, String content, Date date, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        this.user = user;
+    }
+
     public Twitter() {
         this.id= UUIDutil.getUUID();
+        this.date=new Date(System.currentTimeMillis());
     }
 
     public String getId() {
@@ -63,11 +72,14 @@ public class Twitter {
         this.user = user;
     }
 
-    public Twitter(String id, String title, String content, Date date, User user) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Twitter{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                ", user=" + user +
+                '}';
     }
 }

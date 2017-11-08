@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -22,4 +23,6 @@ public interface UserDao extends JpaRepository<User,String> {
     @Modifying
     Integer updateImageById(@Param("image") String image,@Param("id") String id);
 
+    @Query(value = "select *  from user where name like %:name%",nativeQuery = true)
+    List<User> getUserByName(@Param("name") String name);
 }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>他的主页</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+</head>
+<body>
+<div th:include="nav :: nav"></div>
+<div>
+    <img th:src="@{'img/'+${attenteduser.user.image}}" alt="此处应该有my头像" />
+    <button class="btn btn-primary" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
+    <button class="btn btn-primary" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
+    <span th:text="${attenteduser.user.name}"></span>
+</div>
+<div>
+    <!---此处是显示他个人推特的地方-->
+    <div th:each="twitter:${list}">
+        <h4 class="media-heading" th:text="${twitter.title}"></h4>
+        <span th:text="${twitter.date}"></span>
+        <span th:text="${twitter.content}"></span>
+    </div>
+</div>
+</body>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+<script>
+    function deleteattented(id,button) {
+        console.log(id);
+        $.ajax({
+            url: "/deleteattented",
+            type:"get",
+            data:"id="+id,
+            success:function (msg) {
+                if(msg==true){
+                    console.log("成功");
+                    $(button).text("关注");
+                    $(button).removeAttr("onclick");
+                    $(button).attr("onclick","addattented(\'"+id+"\',this)");
+
+                }else{
+                    console.log("失败");
+                }
+                return false;
+            }
+        });
+        return false;
+    }
+</script>
+<script>
+    function addattented(id,button) {
+        console.log(id);
+        $.ajax({
+            url: "/addattented",
+            type:"get",
+            data:"id="+id,
+            success:function (msg) {
+                var btn="<button>关注中</button>";
+                if(msg==true){
+                    console.log("成功");
+                    $(button).text("关注中");
+                    $(button).removeAttr("onclick");
+                    $(button).attr("onclick","deleteattented(\'"+id+"\',this)");
+
+                }else{
+                    console.log("失败");
+                }
+                return false;
+            }
+        });
+        return false;
+    }
+</script>
+</html>
