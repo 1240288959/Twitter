@@ -1,14 +1,11 @@
 package com.tanyang.twitter.control;
 
-import com.tanyang.twitter.dao.UserDao;
-import com.tanyang.twitter.pojo.AttentedUser;
-import com.tanyang.twitter.pojo.Attention;
-import com.tanyang.twitter.pojo.Twitter;
-import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.*;
+import com.tanyang.twitter.pojo.*;
+import com.tanyang.twitter.service.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +24,18 @@ import java.util.List;
 public class UserControl {
     private static final Logger logger=LoggerFactory.getLogger(UserControl.class);
     @Autowired
-    private UserServiceimpl userServiceimpl;
+    private UserServiceImpl userServiceImpl;
     @Autowired
-    private EmailServiceimpl emailServiceimpl;
+    private EmailServiceImpl emailServiceImpl;
     @Autowired
-    private AttentionServiceimpl attentionServiceimpl;
+    private AttentionServiceImpl attentionServiceimpl;
     @Autowired
-    private TwitterServiceimpl twitterServiceimpl;
+    private TwitterServiceImpl twitterServiceImpl;
+    @Autowired
+    private PraiseServiceImpl praiseServiceImpl;
+
+    @Value("${fileUpPath}")
+    private String fileUpPath;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -46,7 +47,7 @@ public class UserControl {
     public boolean login(String email, String password, HttpSession session){
         logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
         System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);
-        return userServiceimpl.login(email,password,session);
+        return userServiceImpl.login(email,password,session);
     }
 
     @RequestMapping("/toregister")
@@ -58,9 +59,9 @@ public class UserControl {
     @ResponseBody
     public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday){
         logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
-        boolean flag= userServiceimpl.register(name,password,realname,gender,email,mobile,birthday);
+        boolean flag= userServiceImpl.register(name,password,realname,gender,email,mobile,birthday);
         if(flag==true){
-            emailServiceimpl.sendSimpleMail(email);
+            emailServiceImpl.sendSimpleMail(email);
             return true;
         }else{
             return false;
@@ -70,7 +71,7 @@ public class UserControl {
     @RequestMapping("/vertify")
     public String vertify(String email){
         logger.info(email);
-        userServiceimpl.vertify(email);
+        userServiceImpl.vertify(email);
         return "vertify";
     }
 
@@ -78,10 +79,12 @@ public class UserControl {
     @ResponseBody
     public boolean setImage(@RequestParam("image") MultipartFile image,HttpSession session){
         String img_name=null;
-        String file_path="E:\\Twitter\\twitter\\src\\main\\resources\\static\\img\\";
+
+        String file_path=new String(fileUpPath);
         logger.info("文件路径为： "+file_path);
         if(image==null){
             logger.info("文件为空");
+            return false;
         }
         img_name=image.getOriginalFilename();
         logger.info("文件名为："+img_name);
@@ -96,7 +99,7 @@ public class UserControl {
             return false;
         }
         User user=(User)session.getAttribute("user");
-        userServiceimpl.setImage(img_name,user.getId());
+        userServiceImpl.setImage(img_name,user.getId());
         user.setImage(img_name);
         session.setAttribute("user",user);
         return true;
@@ -108,7 +111,7 @@ public class UserControl {
         List<User> userlist=null;
         List<AttentedUser> attentedUserList=new ArrayList<>();
         try{
-            userlist=userServiceimpl.searchUser(name);
+            userlist= userServiceImpl.searchUser(name,session);
             for(User user:userlist){
                 boolean attented=attentionServiceimpl.getAttention(attentId,user.getId());
                 AttentedUser attentedUser=new AttentedUser(user,attented);
@@ -127,14 +130,28 @@ public class UserControl {
         logger.info("id:"+id);
         AttentedUser attentedUser=new AttentedUser();
         User user=(User)session.getAttribute("user");
-        User otheruser=userServiceimpl.findUser(id);
+        User otheruser= userServiceImpl.findUser(id);
         logger.info("user:"+otheruser);
         boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
         attentedUser.setUser(otheruser);
         attentedUser.setAttented(attented);
         model.addAttribute("attenteduser",attentedUser);
-        List<Twitter> list=twitterServiceimpl.getTwitterByUserId(id);
-        model.addAttribute("list",list);
+        List<Twitter> list= twitterServiceImpl.getTwitterByUserId(id);
+        List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
+        for(Twitter twitter:list){
+            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+            PraiseTwitter praiseTwitter=new PraiseTwitter();
+            praiseTwitter.setPraise(praise);
+            praiseTwitter.setTwitter(twitter);
+            praiseTwitterList.add(praiseTwitter);
+        }
+        model.addAttribute("list",praiseTwitterList);
         return "otherspage";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.setAttribute("user",null);
+        return "login";
     }
 }

@@ -1,6 +1,7 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.UUIDutil;
+import com.tanyang.twitter.utils.DealImageUtil;
+import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class User {
     private int status;
 
     public User() {
-        this.id= UUIDutil.getUUID();
+        this.id= UuidUtil.getUUID();
         this.status=0;
         this.image=null;
     }
@@ -107,6 +108,13 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    /**
+     * 获取base64 编码的图片字符串
+     */
+    public String getImageBase64(){
+        return new DealImageUtil().getImageBase64Coder(image);
     }
 
     @Override

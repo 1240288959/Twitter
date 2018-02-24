@@ -1,6 +1,6 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.UUIDutil;
+import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.*;
 
@@ -17,7 +17,7 @@ public class Attention {
     private User attented;
 
     public Attention() {
-        this.id= UUIDutil.getUUID();
+        this.id= UuidUtil.getUUID();
     }
 
     public String getId() {

@@ -7,8 +7,10 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<div th:each="user:${list}">
-    <img th:src="@{'img/'+${user.image}}" alt="...此处为被关注者的头像"/>
+<div  th:each="user:${list}" style="margin-bottom: 10px">
+    <a th:href="'/tootherspage?id='+${user.id}+''">
+        <img class="img-circle"  th:src="@{${user.getImageBase64()}}" alt="...此处为被关注者的头像" style="width: 100px;height: 100px"/>
+    </a>
     <button class="btn btn-primary" th:onclick="'deleteattented(\''+${user.id}+'\',this)'" >关注中</button>
     <span th:text="${user.name}"></span>
 </div>

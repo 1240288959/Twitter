@@ -7,60 +7,37 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<div id="mymsg" class="col-sm-4">
-    <img th:src="@{'img/'+${session.user.image}}" id="myimage" alt="..此处为自己的头像" class="img-circle"
-         style="width: 100px;height: 100px"/>
-    <span th:text="${session.user.name}"></span>
-    <div id="attentioned">
-        <span>关注</span>
+<div id="mymsg" class="col-sm-2">
+    <div style="width: 210px;height: 250px;margin-bottom: 30px">
+        <img class="img-circle" th:src="@{${session.user.getImageBase64()}}" id="myimage" alt="..此处为自己的头像" style="width: 210px;height: 200px"/>
+        <p class="text-center" th:text="${session.user.name}"></p>
+        <button id="attentioned" class="btn btn-primary center-block">关注列表</button>
     </div>
+    <!--<div id="attentioned">
+        <p class="text-center" th:text="${session.user.name}"></p>
+        <button class="btn btn-primary center-block">关注列表</button>
+    </div>-->
 </div>
-<div id="twitter" class="col-sm-8">
+<div id="twitter" class="col-sm-6 col-sm-offset-2">
     <ul class="media-list">
         <li th:each="twitter:${list}" class="media">
             <div style="float: left">
-                <a href="#">
-                    <img class="media-object img-circle" th:src="@{'img/'+${twitter.user.image}}" alt="此处为头像" style="width: 100px;height: 100px"/>
+                <a th:href="'/tootherspage?id='+${twitter.twitter.user.id}+''">
+                    <img class="media-object img-circle" th:src="@{${twitter.twitter.user.getImageBase64()}}" alt="此处为头像" style="width: 100px;height: 100px"/>
                 </a>
             </div>
-            <div class="media-body" th:onclick="'showmodal(\''+${twitter.id}+'\',\''+${twitter.title}+'\',\''+${twitter.user.name}+'\',
-            \''+${twitter.date}+'\',\''+${twitter.content}+'\')'">
-                <h4 class="media-heading" th:text="${twitter.title}"></h4>
-                <span th:text="${twitter.user.name}"></span>
-                <span th:text="${twitter.date}"></span>
+            <div class="media-body" th:onclick="'showmodal(\''+${twitter.twitter.id}+'\',\''+${twitter.twitter.title}+'\',\''+${twitter.twitter.user.name}+'\',
+            \''+${twitter.twitter.date}+'\',\''+${twitter.twitter.content}+'\')'">
+                <h4 class="media-heading" th:text="${twitter.twitter.title}"></h4>
+                <span th:text="${twitter.twitter.user.name}"></span>
+                <span th:text="${twitter.twitter.date}"></span>
                 <div style="width: 200px;word-break:break-all;">
-                    <p th:text="${twitter.content}"></p>
+                    <p th:text="${twitter.twitter.content}"></p>
                 </div>
             </div>
         </li>
     </ul>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel" ></h4>
-                </div>
-                <div class="modal-body">
-                    <span id="modal-id"></span>
-                    <span id="modal-username"></span>
-                    <span id="modal-date"></span>
-                    <div id="modal-content" style="width: 200px;word-break:break-all;">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="text" name="comment" id="comment"/>
-                    <button id="addcomment"  type="button" class="btn btn-primary">
-                        回复
-                    </button>
-                    <div id="mydiv" ></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 </body>
 <script th:src="@{js/jquery.min.js}"></script>
@@ -78,22 +55,28 @@
                 for(var i in msg){
                     console.log(msg[i]);
                     var div=document.createElement("div");
-                    $(div).attr("class","media");
+                   /* $(div).attr("class","div");*/
                     var div1=document.createElement("div");
-                    $(div1).attr("class","media-left");
-                    var div2=document.createElement("div");
-                    $(div2).attr("class","media-body");
+                    /*$(div1).attr("class","col-sm-8");*/
+                    $(div1).attr("style","word-break:break-all; word-wrap:break-word ;");
 
-                    var dcontent=document.createElement("span");
+                    var div2=document.createElement("div");
+                    /*$(div2).attr("class","col-sm-4");*/
+
+                    var dcontent=document.createElement("p");
                     $(dcontent).html(msg[i].content);
+                    $(dcontent).attr("class","text-left");
+
+
 
                     var date=document.createElement("span");
-                    $(date).html(msg[i].date);
+                    $(date).html(msg[i].date+"&nbsp;");
 
                     var duser=document.createElement("span");
                     $(duser).html(msg[i].user.name);
 
-                    $(div2).append(dcontent,date,duser);
+                    $(div1).append(dcontent);
+                    $(div2).append(date,duser);
                     $(div).append(div1,div2);
                     $("#mydiv").append(div);
                 }
@@ -113,7 +96,7 @@
 
         $("#myModal h4").html(title);
         $("#modal-id").html(id);
-        $("#modal-username").html(date);
+        $("#modal-username").html(username);
         $("#modal-date").html(date);
         $("#modal-content p").html(content);
         updatacomment(id);

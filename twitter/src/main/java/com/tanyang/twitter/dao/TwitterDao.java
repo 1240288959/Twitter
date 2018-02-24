@@ -15,12 +15,12 @@ public interface TwitterDao extends JpaRepository<Twitter,String> {
     /*
     * 获取关注的推特
     * */
-    @Query(value = "select * from twitter where user in (select attented from attention where attent=:id)",nativeQuery = true)
+    @Query(value = "select * from twitter where user in (select attented from attention where attent=:id) order by date desc",nativeQuery = true)
     List<Twitter> getTwitterByAttention(@Param("id") String id);
 
-    @Query(value = "select * from twitter where user =(select id from user where name=:name)",nativeQuery = true)
+    @Query(value = "select * from twitter where user =(select id from user where name=:name) order by date desc",nativeQuery = true)
     List<Twitter> getTwitterByUserName(@Param("name") String name);
 
-    @Query(value = "select * from twitter where user =:id",nativeQuery = true)
+    @Query(value = "select * from twitter where user =:id order by date desc",nativeQuery = true)
     List<Twitter> getTwitterByUserId(@Param("id") String id);
 }

@@ -1,8 +1,11 @@
 package com.tanyang.twitter.control;
 
+import com.tanyang.twitter.pojo.Praise;
+import com.tanyang.twitter.pojo.PraiseTwitter;
 import com.tanyang.twitter.pojo.Twitter;
 import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.TwitterServiceimpl;
+import com.tanyang.twitter.service.impl.PraiseServiceImpl;
+import com.tanyang.twitter.service.impl.TwitterServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,14 +24,24 @@ public class TwitterControl {
 
     private static final Logger logger=LoggerFactory.getLogger(Twitter.class);
     @Autowired
-    private TwitterServiceimpl twitterServiceimpl;
+    private TwitterServiceImpl twitterServiceImpl;
+    @Autowired
+    private PraiseServiceImpl praiseServiceImpl;
 
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
         User user=(User)session.getAttribute("user");
         logger.info("id :"+user.getId());
-        List<Twitter> list=twitterServiceimpl.getTwitterByAttention(user.getId());
-        model.addAttribute("list",list);
+        List<Twitter> list= twitterServiceImpl.getTwitterByAttention(user.getId());
+        List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
+        for(Twitter twitter:list){
+            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+            PraiseTwitter praiseTwitter=new PraiseTwitter();
+            praiseTwitter.setPraise(praise);
+            praiseTwitter.setTwitter(twitter);
+            praiseTwitterList.add(praiseTwitter);
+        }
+        model.addAttribute("list",praiseTwitterList);
         logger.info("list:"+list);
         return "main";
     }
@@ -35,7 +49,7 @@ public class TwitterControl {
     @RequestMapping("/tomypage")
     public String getMyAttention(Model model,HttpSession session){
         User user=(User)session.getAttribute("user");
-        List<Twitter> list=twitterServiceimpl.getTwitterByUserId(user.getId());
+        List<Twitter> list= twitterServiceImpl.getTwitterByUserId(user.getId());
         model.addAttribute("list",list);
         logger.info("list:"+list);
         return "mypage";
@@ -55,6 +69,6 @@ public class TwitterControl {
         twitter.setUser(user);
         twitter.setTitle(title);
         twitter.setContent(content);
-        return twitterServiceimpl.deliveryTwitter(twitter);
+        return twitterServiceImpl.deliveryTwitter(twitter);
     }
 }

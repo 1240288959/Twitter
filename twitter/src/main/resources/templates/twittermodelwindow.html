@@ -1,0 +1,36 @@
+<div th:fragment="twittermodelwindow" xmlns:th="http://www.w3.org/1999/xhtml">
+    <!--此处为模态窗-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" ></h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <span class="text-right" id="modal-id" hidden="true"></span>
+                        <p class="text-right">
+                            <span class="text-right" id="modal-username"></span>
+                            &nbsp;
+                            <span class="text-right" id="modal-date"></span>
+                        </p>
+                    </div>
+                    <div id="modal-content" style="width: 100%;word-break:break-all;">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form  class="col-sm-12">
+                        <textarea style="resize: none;margin-bottom: 5px" class="form-control" cols="20" rows="1"  name="comment" id="comment" placeholder="请输入评论"/>
+                        <button id="addcomment"  type="button" class="btn btn-primary">回复</button>
+                    </form>
+
+                    <div id="mydiv" ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

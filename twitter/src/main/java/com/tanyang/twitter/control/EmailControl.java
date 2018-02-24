@@ -1,7 +1,6 @@
 package com.tanyang.twitter.control;
 
-import com.tanyang.twitter.service.EmailService;
-import com.tanyang.twitter.service.EmailServiceimpl;
+import com.tanyang.twitter.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,6 +8,6 @@ import org.springframework.stereotype.Controller;
 public class EmailControl {
 
     @Autowired
-    private EmailServiceimpl emailServiceimpl;
+    private EmailServiceImpl emailServiceImpl;
 
 }

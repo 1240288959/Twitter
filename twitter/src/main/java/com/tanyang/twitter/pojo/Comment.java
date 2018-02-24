@@ -1,9 +1,9 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.UUIDutil;
+import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table
@@ -22,7 +22,7 @@ public class Comment {
     private User user;
 
     public Comment() {
-        this.id= UUIDutil.getUUID();
+        this.id= UuidUtil.getUUID();
         this.date=new Date(System.currentTimeMillis());
     }
 

@@ -23,6 +23,8 @@ public interface UserDao extends JpaRepository<User,String> {
     @Modifying
     Integer updateImageById(@Param("image") String image,@Param("id") String id);
 
-    @Query(value = "select *  from user where name like %:name%",nativeQuery = true)
-    List<User> getUserByName(@Param("name") String name);
+    @Query(value = "select *  from user where name like %:name% and name <> :username",nativeQuery = true)
+    List<User> getUserByName(@Param("name") String name,@Param("username") String username);
+
+
 }

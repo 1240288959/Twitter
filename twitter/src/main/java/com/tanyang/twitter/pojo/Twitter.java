@@ -1,9 +1,10 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.UUIDutil;
+import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Table
@@ -19,16 +20,8 @@ public class Twitter {
     @JoinColumn(name="user")
     private User user;
 
-    public Twitter(String id, String title, String content, Date date, User user) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.user = user;
-    }
-
     public Twitter() {
-        this.id= UUIDutil.getUUID();
+        this.id= UuidUtil.getUUID();
         this.date=new Date(System.currentTimeMillis());
     }
 
@@ -57,7 +50,7 @@ public class Twitter {
     }
 
     public Date getDate() {
-        return date;
+        return new java.sql.Date(date.getTime());
     }
 
     public void setDate(Date date) {

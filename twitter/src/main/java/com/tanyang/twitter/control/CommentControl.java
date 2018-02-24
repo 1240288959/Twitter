@@ -3,8 +3,8 @@ package com.tanyang.twitter.control;
 import com.tanyang.twitter.pojo.Comment;
 import com.tanyang.twitter.pojo.Twitter;
 import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.CommentServiceimpl;
-import com.tanyang.twitter.service.TwitterServiceimpl;
+import com.tanyang.twitter.service.impl.CommentServiceImpl;
+import com.tanyang.twitter.service.impl.TwitterServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +21,20 @@ public class CommentControl {
 
     private Logger logger= LoggerFactory.getLogger(CommentControl.class);
     @Autowired
-    private CommentServiceimpl commentServiceimpl;
+    private CommentServiceImpl commentServiceImpl;
     @Autowired
-    private TwitterServiceimpl twitterServiceimpl;
+    private TwitterServiceImpl twitterServiceImpl;
 
     @RequestMapping("/addComment")
     @ResponseBody
     public boolean addComment(String content, String twitter, HttpSession session){
         User user=(User)session.getAttribute("user");
         Comment comment=new Comment();
-        Twitter twi=twitterServiceimpl.getTwitterById(twitter);
+        Twitter twi= twitterServiceImpl.getTwitterById(twitter);
         comment.setContent(content);
         comment.setTwitter(twi);
         comment.setUser(user);
-        return commentServiceimpl.addComment(comment);
+        return commentServiceImpl.addComment(comment);
     }
 
     @RequestMapping("/getComment")
@@ -42,8 +42,8 @@ public class CommentControl {
     public List<Comment> getCommentByTwitterId(String twitterid, Model model){
         logger.info("Twitterid:"+twitterid);
         List<Comment> list=null;
-        Twitter twitter=twitterServiceimpl.getTwitterById(twitterid);
-        list=commentServiceimpl.getCommentByTwitterId(twitter);
+        Twitter twitter= twitterServiceImpl.getTwitterById(twitterid);
+        list= commentServiceImpl.getCommentByTwitterId(twitter);
         model.addAttribute("commentlist",list);
         return list;
     }

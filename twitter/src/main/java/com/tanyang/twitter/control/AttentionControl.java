@@ -1,8 +1,7 @@
 package com.tanyang.twitter.control;
 
-import com.tanyang.twitter.pojo.Attention;
 import com.tanyang.twitter.pojo.User;
-import com.tanyang.twitter.service.AttentionServiceimpl;
+import com.tanyang.twitter.service.impl.AttentionServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class AttentionControl {
     private Logger logger= LoggerFactory.getLogger(AttentionControl.class);
 
     @Autowired
-    private AttentionServiceimpl attentionServiceimpl;
+    private AttentionServiceImpl attentionServiceimpl;
 
     @RequestMapping("/toattented")
     public String getAttentByUserId(Model model,HttpSession session){
