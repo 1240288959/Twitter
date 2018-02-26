@@ -1,9 +1,11 @@
 function register() {
+    var flag;
     $.ajax({
         url:"/register",
-        type:"get",
+        type:"post",
         dataType:"json",
-        async:true,
+        async:false,
+        cache:false,
         data:{
             name:$("#name").val(),
             password:$("#password").val(),
@@ -16,12 +18,14 @@ function register() {
         success:function (msg) {
             if(msg==true){
                 window.alert("注册成功");
-                location.href="/tologin";
+                flag=true;
             }
-            else
+            else{
                 window.alert("注册失败");
-            return false;
+                flag=false;
+            }
         }
     });
-    return false;
+    return flag;
 }
+

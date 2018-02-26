@@ -6,10 +6,10 @@
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
 <body>
-<form  class="col-sm-8 col-sm-offset-2" id="myform" method="get">
+<form  class="col-sm-8 col-sm-offset-2" action="/tomain" id="myform" method="post" onsubmit="return deliverytwitter()">
     <input class="form-control" type="text" name="title" id="title" placeholder="请输入标题"/>
     <textarea class="form-control" cols="20" rows="10"  name="content" id="content" placeholder="请输入文本"/>
-    <span id="submit" class="btn btn-primary" onclick="deliverytwitter()">提交</span>
+    <button type="submit" id="submit" class="btn btn-primary">提交</button>
 </form>
 </body>
 <script th:src="@{js/common/jquery.min.js}"></script>

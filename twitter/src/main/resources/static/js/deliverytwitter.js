@@ -1,12 +1,14 @@
 function deliverytwitter () {
+    var flag=false;
     $.ajax({
         url:"/deliverytwitter",
-        type:"get",
+        type:"post",
+        async:false,
+        cache:false,
         data:$("#myform").serialize(),
         success:function(msg){
-            location.href="/tomain";
-            return false;
+            flag=true;
         }
     });
-    return false;
+    return flag;
 }
