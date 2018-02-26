@@ -15,7 +15,7 @@ public interface TwitterDao extends JpaRepository<Twitter,String> {
     /*
     * 获取关注的推特
     * */
-    @Query(value = "select * from twitter where user in (select attented from attention where attent=:id) order by date desc",nativeQuery = true)
+    @Query(value = "select * from twitter where user in (select attented from attention where attent=:id) or user = :id order by date desc",nativeQuery = true)
     List<Twitter> getTwitterByAttention(@Param("id") String id);
 
     @Query(value = "select * from twitter where user =(select id from user where name=:name) order by date desc",nativeQuery = true)

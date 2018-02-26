@@ -9,9 +9,9 @@
 <div th:include="nav :: nav"></div>
 <div id="mymsg" class="col-sm-2">
     <div style="width: 210px;height: 250px;margin-bottom: 30px">
-        <img class="img-circle" th:src="@{${session.user.getImageBase64()}}" id="myimage" alt="..此处为自己的头像" style="width: 210px;height: 200px"/>
+        <img class="img-circle" th:src="@{${session.user.getImageBase64()}}" id="myimage" onclick="tomypage()" alt="..此处为自己的头像" style="width: 210px;height: 200px"/>
         <p class="text-center" th:text="${session.user.name}"></p>
-        <button id="attentioned" class="btn btn-primary center-block">关注列表</button>
+        <a id="attentioned" class="btn btn-primary center-block" href="/toattented">关注列表</a>
     </div>
     <!--<div id="attentioned">
         <p class="text-center" th:text="${session.user.name}"></p>
@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="media-body" th:onclick="'showmodal(\''+${twitter.twitter.id}+'\',\''+${twitter.twitter.title}+'\',\''+${twitter.twitter.user.name}+'\',
-            \''+${twitter.twitter.date}+'\',\''+${twitter.twitter.content}+'\')'">
+            \''+${twitter.twitter.date}+'\',\''+${twitter.twitter.content}+'\')'" >
                 <h4 class="media-heading" th:text="${twitter.twitter.title}"></h4>
                 <span th:text="${twitter.twitter.user.name}"></span>
                 <span th:text="${twitter.twitter.date}"></span>
@@ -40,94 +40,14 @@
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 </body>
-<script th:src="@{js/jquery.min.js}"></script>
-<script th:src="@{js/bootstrap.js}"></script>
+<script th:src="@{js/common/jquery.min.js}"></script>
+<script th:src="@{js/common/bootstrap.js}"></script>
+<script th:src="@{js/modal-window-twitter.js}"></script>
+<script th:src="@{js/main.js}"></script>
 <script>
-    function updatacomment(id){
-        $("#mydiv").empty();
-        $.ajax({
-            url:"/getComment",
-            type:"get",
-            data:"twitterid="+id,
-            dataType:"json",
-            success:function (msg) {
-                console.log(msg);
-                for(var i in msg){
-                    console.log(msg[i]);
-                    var div=document.createElement("div");
-                   /* $(div).attr("class","div");*/
-                    var div1=document.createElement("div");
-                    /*$(div1).attr("class","col-sm-8");*/
-                    $(div1).attr("style","word-break:break-all; word-wrap:break-word ;");
-
-                    var div2=document.createElement("div");
-                    /*$(div2).attr("class","col-sm-4");*/
-
-                    var dcontent=document.createElement("p");
-                    $(dcontent).html(msg[i].content);
-                    $(dcontent).attr("class","text-left");
-
-
-
-                    var date=document.createElement("span");
-                    $(date).html(msg[i].date+"&nbsp;");
-
-                    var duser=document.createElement("span");
-                    $(duser).html(msg[i].user.name);
-
-                    $(div1).append(dcontent);
-                    $(div2).append(date,duser);
-                    $(div).append(div1,div2);
-                    $("#mydiv").append(div);
-                }
-                return false;
-            }
-        });
-        return false;
-    }
-    $("#myimage").click(function () {
-        location.href="/tomypage";
-    });
-    $("#attentioned").click(function () {
-        location.href="/toattented";
-    });
-    function showmodal(id,title,username,date,content) {
-        console.log(id);
-
-        $("#myModal h4").html(title);
-        $("#modal-id").html(id);
-        $("#modal-username").html(username);
-        $("#modal-date").html(date);
-        $("#modal-content p").html(content);
-        updatacomment(id);
-        $("#myModal").modal("show");
-    }
     $("#myModal").on("hidden",function () {
         $(this).removeData();
         $("#mydiv").remove();
-    });
-    
-    function addcomment() {
-        var id=$("#modal-id").html();
-        $.ajax({
-            url:"/addComment",
-            type:"get",
-            data:{
-                content:$("#comment").val(),
-                twitter:$("#modal-id").html()
-            },
-            success:function (msg) {
-                if(msg==true){
-                    updatacomment($("#modal-id").html());
-                    $("#comment").val("");
-                }
-                return false;
-            }
-        });
-        return false;
-    }
-    $("#addcomment").click(function () {
-        addcomment();
     });
 </script>
 </html>

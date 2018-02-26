@@ -1,6 +1,6 @@
 <div th:fragment="twittermodelwindow" xmlns:th="http://www.w3.org/1999/xhtml">
     <!--此处为模态窗-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -23,11 +23,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button id="praise" hidden="true" onclick="praise_click()">点赞</button>
+                    <button id="unpraise" hidden="true" onclick="unpraise_click()">取消点赞</button>
                     <form  class="col-sm-12">
                         <textarea style="resize: none;margin-bottom: 5px" class="form-control" cols="20" rows="1"  name="comment" id="comment" placeholder="请输入评论"/>
-                        <button id="addcomment"  type="button" class="btn btn-primary">回复</button>
+                        <span id="addcomment" onclick="addcomment()" type="button" class="btn btn-primary">回复</span>
                     </form>
-
                     <div id="mydiv" ></div>
                 </div>
             </div>

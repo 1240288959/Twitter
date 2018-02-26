@@ -11,8 +11,8 @@
     <div  style="width: 210px;height: 250px;margin-bottom: 30px">
         <img class="img-circle" th:src="@{${session.user.getImageBase64()}}" alt="此处应该有my头像" style="width: 210px;height: 200px" />
         <p class="text-center" th:text="${session.user.name}"></p>
-        <button id="upload" class="btn primary-btn center-block">更改头像</button>
-        <input id="fileupload" type="file" name="image" style="display:none;"/>
+        <button id="upload" onclick="upload_click()" class="btn primary-btn center-block">更改头像</button>
+        <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
     </div>
 </div>
 <div class="col-sm-6 col-sm-offset-2">
@@ -29,122 +29,9 @@
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 </body>
-<script th:src="@{js/jquery.min.js}"></script>
-<script th:src="@{js/bootstrap.js}"></script>
-<script th:src="@{js/ajaxfileupload .js}"></script>
-<script>
-    $("#upload").on("click",function () {
-        $("#fileupload").click();
-    });
-
-    $("#fileupload").on('change',function () {
-        $.ajaxFileUpload({
-           url:"/setImage",
-           secureuri:false,
-           fileElementId:'fileupload',
-           success:function (msg) {
-               if(msg==false){
-                   alert("false");
-               }else{
-                   alert("success");
-               }
-               return false;
-            },
-            error:function (msg) {
-                if(msg==false){
-                    alert("false");
-                }else{
-                    alert("success");
-                }
-                return false;
-            }
-       });
-        return false;
-    });
-
-    function updatacomment(id){
-        $("#mydiv").empty();
-        $.ajax({
-            url:"/getComment",
-            type:"get",
-            data:"twitterid="+id,
-            dataType:"json",
-            success:function (msg) {
-                console.log(msg);
-                for(var i in msg){
-                    console.log(msg[i]);
-                    var div=document.createElement("div");
-                    /* $(div).attr("class","div");*/
-                    var div1=document.createElement("div");
-                    /*$(div1).attr("class","col-sm-8");*/
-                    $(div1).attr("style","word-break:break-all; word-wrap:break-word ;");
-
-                    var div2=document.createElement("div");
-                    /*$(div2).attr("class","col-sm-4");*/
-
-                    var dcontent=document.createElement("p");
-                    $(dcontent).html(msg[i].content);
-                    $(dcontent).attr("class","text-left");
-
-
-
-                    var date=document.createElement("span");
-                    $(date).html(msg[i].date+"&nbsp;");
-
-                    var duser=document.createElement("span");
-                    $(duser).html(msg[i].user.name);
-
-                    $(div1).append(dcontent);
-                    $(div2).append(date,duser);
-                    $(div).append(div1,div2);
-                    $("#mydiv").append(div);
-                }
-                return false;
-            }
-        });
-        return false;
-    }
-
-    function showmodal(id,title,username,date,content) {
-        console.log(id);
-
-        $("#myModal h4").html(title);
-        $("#modal-id").html(id);
-        $("#modal-username").html(username);
-        $("#modal-date").html(date);
-        $("#modal-content p").html(content);
-        updatacomment(id);
-        $("#myModal").modal("show");
-    }
-    $("#myModal").on("hidden",function () {
-        $(this).removeData();
-        $("#mydiv").remove();
-    });
-
-    function addcomment() {
-        var id=$("#modal-id").html();
-        $.ajax({
-            url:"/addComment",
-            type:"get",
-            data:{
-                content:$("#comment").val(),
-                twitter:$("#modal-id").html()
-            },
-            success:function (msg) {
-                if(msg==true){
-                    updatacomment($("#modal-id").html());
-                    $("#comment").val("");
-                }
-                return false;
-            }
-        });
-        return false;
-    }
-
-    $("#addcomment").click(function () {
-        addcomment();
-    });
-
-
-</script>
+<script th:src="@{js/common/jquery.min.js}"></script>
+<script th:src="@{js/common/bootstrap.js}"></script>
+<script th:src="@{js/common/ajaxfileupload .js}"></script>
+<script th:src="@{js/modal-window-twitter.js}"></script>
+<script th:src="@{js/mypage.js}"></script>
 </html>

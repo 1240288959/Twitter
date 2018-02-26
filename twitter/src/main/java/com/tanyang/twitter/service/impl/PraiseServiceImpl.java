@@ -26,7 +26,8 @@ public class PraiseServiceImpl implements PraiseService {
 
     @Override
     public Praise getPraiseByUserAndTwitter(String userid, String twitterid) {
-        return praiseDao.getOneByUserAndTwitter(userid,twitterid);
+        Praise praise= praiseDao.getOneByUserAndTwitter(userid,twitterid);
+        return praise;
     }
 
     @Override
