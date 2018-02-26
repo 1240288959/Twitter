@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
 <body>
+<div th:include="nav :: nav"></div>
+<h4 class="text-center">发推</h4>
 <form  class="col-sm-8 col-sm-offset-2" action="/tomain" id="myform" method="post" onsubmit="return deliverytwitter()">
     <input class="form-control" type="text" name="title" id="title" placeholder="请输入标题"/>
     <textarea class="form-control" cols="20" rows="10"  name="content" id="content" placeholder="请输入文本"/>

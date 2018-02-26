@@ -38,10 +38,14 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a th:if="${session.user != null}"  href="/todeliverytwitter">发推</a>
+                        <a th:if="${session.user != null}" title="发送推文"  href="/todeliverytwitter">
+                            <span class="glyphicon glyphicon-send"  aria-hidden="true"></span>
+                        </a>
                     </li>
                     <li>
-                        <a th:if="${session.user != null}" href="/logout">登出</a>
+                        <a th:if="${session.user != null}" title="登出" href="/logout">
+                            <span  class="glyphicon glyphicon-log-out"  aria-hidden="true"></span>
+                        </a>
                         <a th:unless="${session.user != null}"  href="/toregister">注册</a>
                     </li>
                 </ul>

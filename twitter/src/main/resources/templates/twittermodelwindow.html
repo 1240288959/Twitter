@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="praise" hidden="true" onclick="praise_click()">点赞</button>
-                    <button id="unpraise" hidden="true" onclick="unpraise_click()">取消点赞</button>
+                    <span  class="glyphicon glyphicon-heart-empty" id="praise" hidden="true" onclick="praise_click()" aria-hidden="true"></span>
+                    <span  class="glyphicon glyphicon-heart" id="unpraise" hidden="true" onclick="unpraise_click()" aria-hidden="true"></span>
                     <form  class="col-sm-12">
                         <textarea style="resize: none;margin-bottom: 5px" class="form-control" cols="20" rows="1"  name="comment" id="comment" placeholder="请输入评论"/>
                         <span id="addcomment" onclick="addcomment()" type="button" class="btn btn-primary">回复</span>

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 
-public class DealImageUtil {
+public class ImageUtil {
 
     private  String fileUpPath;
 
-    public DealImageUtil() {
+    public ImageUtil() {
         fileUpPath=PropertyUtil.getProperty("fileUpPath");
     }
 

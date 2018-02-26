@@ -1,10 +1,5 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.DealImageUtil;
-import org.springframework.stereotype.Component;
-
-import java.sql.Date;
-
 public class AttentedUser {
     private User user;
     private boolean attented;

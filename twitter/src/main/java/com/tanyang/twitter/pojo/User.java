@@ -1,6 +1,6 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.DealImageUtil;
+import com.tanyang.twitter.utils.ImageUtil;
 import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.Entity;
@@ -114,7 +114,7 @@ public class User {
      * 获取base64 编码的图片字符串
      */
     public String getImageBase64(){
-        return new DealImageUtil().getImageBase64Coder(image);
+        return new ImageUtil().getImageBase64Coder(image);
     }
 
     @Override
