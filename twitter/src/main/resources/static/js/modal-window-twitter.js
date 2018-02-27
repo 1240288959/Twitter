@@ -120,3 +120,7 @@ function unpraise_click() {
         }
     });
 }
+
+function commentToggle() {
+    $("#commentTFrom").toggle();
+}
