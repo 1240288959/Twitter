@@ -8,13 +8,19 @@
 <body>
 <div th:include="nav :: nav"></div>
 <div class="col-sm-2">
-    <div style="width: 210px;height: 250px;margin-bottom: 30px">
+    <div style="width: 210px;margin-bottom: 30px">
         <img class="img-circle" th:src="@{${attenteduser.user.getImageBase64()}}" alt="此处应该有my头像" style="width: 210px;height: 200px" />
         <div th:if="${session.user.id != attenteduser.user.id }">
             <button class="btn btn-primary center-block" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
             <button class="btn btn-primary center-block" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
         </div>
         <p class="text-center" th:text="${attenteduser.user.name}"></p>
+        <p class="text-center"><span>他的性别：&nbsp;</span>
+            <span th:if="${attenteduser.user.gender == '1' }" >男</span>
+            <span th:unless="${attenteduser.user.gender == '1'}" >女</span>
+        </p>
+        <p class="text-center">他的生日：&nbsp;<span th:text="${attenteduser.user.birthday}"></span></p>
+
     </div>
 </div>
 <div class="col-sm-6 col-sm-offset-2">
