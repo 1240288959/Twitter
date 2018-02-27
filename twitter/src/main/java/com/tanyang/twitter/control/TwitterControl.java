@@ -47,12 +47,17 @@ public class TwitterControl {
     }
 
     @RequestMapping("/tomypage")
-    public String getMyAttention(Model model,HttpSession session){
+    public String toMyPage(){
+        return "mypage";
+    }
+
+    @RequestMapping("/tomytwitter")
+    public String getMyTwitter(Model model,HttpSession session){
         User user=(User)session.getAttribute("user");
         List<Twitter> list= twitterServiceImpl.getTwitterByUserId(user.getId());
         model.addAttribute("list",list);
         logger.info("list:"+list);
-        return "mypage";
+        return "mytwitter";
     }
 
     @RequestMapping("/todeliverytwitter")

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>我的信息</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+</head>
+<body onload="setform()">
+<div th:include="nav :: nav"></div>
+<div class="col-sm-2">
+    <div  style="width: 210px;margin-bottom: 30px">
+        <div  onclick="upload_click()" title="点击更改头像">
+            <img class="img-circle"  th:src="@{${session.user.getImageBase64()}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
+        </div>
+        <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
+        <p class="text-center" th:text="${session.user.name}"></p>
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <a href="/tomytwitter">我的推文</a>
+            </li>
+            <li class="active">
+                <a href="/tomyinform">我的信息</a>
+            </li>
+            <li>
+                <a href="/tomain">返回主页</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<form  class="col-sm-8 col-sm-offset-2" id="myform" action="/tomyinform" onsubmit="return update_myinform()" method="post">
+    <div class="register-box" style="width: 80%;">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">name</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="text" name="name" id="name" placeholder="请输入用户名" required="required"/>
+            </div>
+        </div>
+        <div class="form-group" hidden="hidden">
+            <label class="col-sm-2 control-label" for="password">password</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="password" name="password" id="password" placeholder="请输入密码" required="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="realname">realname</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="text" name="realname" id="realname" placeholder="请输入真实姓名" required="required"/>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-sm-2 control-label" >gender</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input  type="radio" name="gender" id="male"  value="1"/><label  for="male">男</label>
+                <input  type="radio" name="gender" id="female" value="0"/><label  for="female">女</label>
+            </div>
+        </div>
+        <div class="form-group" hidden="hidden">
+            <label class="col-sm-2 control-label" for="email">email</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="email" name="email" id="email" placeholder="请输入邮箱" required="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="mobile">mobile</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="text" name="mobile" id="mobile" placeholder="请输入手机号"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="birthday">birthday</label>
+            <div class="col-sm-10" style="margin-bottom: 20px">
+                <input class="form-control" type="date" name="birthday" id="birthday"  placeholder="--年--月--日"/>
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10 " >
+            <button type="button" class="btn btn-default" id="edit" onclick="edit_click()" >编辑</button>
+            <button type="button" class="btn btn-default" id="unedit" onclick="setform()" >放弃编辑</button>
+            <button type="submit" class="btn btn-primary" id="submit">提交</button>
+        </div>
+
+    </div>
+</form>
+</body>
+<script th:src="@{js/common/jquery.min.js}"></script>
+<script th:src="@{js/common/bootstrap.js}"></script>
+<script th:src="@{js/common/ajaxfileupload .js}"></script>
+<script th:src="@{js/fileupload.js}"></script>
+<script th:src="@{js/myinform.js}"></script>
+</html>

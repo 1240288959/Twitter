@@ -56,6 +56,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updateUserInform(User user){
+        try{
+            userDao.save(user);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean vertify(String email) {
         int flag=0;
         try{

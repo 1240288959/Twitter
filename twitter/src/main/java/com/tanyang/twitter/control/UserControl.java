@@ -154,4 +154,31 @@ public class UserControl {
         session.setAttribute("user",null);
         return "login";
     }
+
+    @RequestMapping("/tomyinform")
+    public String toMyInform(){
+        return "myinform";
+    }
+
+    @RequestMapping("/getcurrentuser")
+    @ResponseBody
+    public User getCurrentUser(HttpSession session){
+        User user= (User) session.getAttribute("user");
+        return user;
+    }
+
+    @RequestMapping("/updateuserinform")
+    @ResponseBody
+    public boolean updateUserInform(String name, String password,String realname,String gender, String email, String mobile, Date birthday,HttpSession session){
+        User user= (User) session.getAttribute("user");
+        user.setName(name);
+        user.setPassword(password);
+        user.setRealname(realname);
+        user.setGender(gender);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setBirthday(birthday);
+        boolean isSuccess=userServiceImpl.updateUserInform(user);
+        return isSuccess;
+    }
 }

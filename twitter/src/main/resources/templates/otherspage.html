@@ -10,8 +10,10 @@
 <div class="col-sm-2">
     <div style="width: 210px;height: 250px;margin-bottom: 30px">
         <img class="img-circle" th:src="@{${attenteduser.user.getImageBase64()}}" alt="此处应该有my头像" style="width: 210px;height: 200px" />
-        <button class="btn btn-primary center-block" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
-        <button class="btn btn-primary center-block" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
+        <div th:if="${session.user.id != attenteduser.user.id }">
+            <button class="btn btn-primary center-block" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
+            <button class="btn btn-primary center-block" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
+        </div>
         <p class="text-center" th:text="${attenteduser.user.name}"></p>
     </div>
 </div>

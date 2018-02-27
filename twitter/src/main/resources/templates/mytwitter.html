@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>个人中心</title>
+    <title>我的推文</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
 <body>
@@ -15,17 +15,31 @@
         <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
         <p class="text-center" th:text="${session.user.name}"></p>
         <ul class="nav nav-pills nav-stacked">
-            <li>
-                <a href="/tomytwitter">我的推文</a>
+            <li class="active">
+                <a href="/tomypage">我的推文</a>
             </li>
             <li>
-               <a href="/tomyinform">我的信息</a>
+                <a href="/tomyinform">我的信息</a>
             </li>
             <li>
-                <a href="/tomain">返回主页</a>
+                <a href="/tomypage">返回主页</a>
             </li>
         </ul>
     </div>
+</div>
+
+<div class="col-sm-6 col-sm-offset-2">
+    <!---此处是显示个人推特的地方-->
+    <div th:each="twitter:${list}" style="margin-bottom: 10px" th:onclick="'showmodal(\''+${twitter.id}+'\',\''+${twitter.title}+'\',\''+${twitter.user.name}+'\',
+            \''+${twitter.date}+'\',\''+${twitter.content}+'\')'" >
+        <h4 class="media-heading" th:text="${twitter.title}"></h4>
+        <span th:text="${twitter.user.name}"></span>
+        <span th:text="${twitter.date}"></span>
+        <div style="width: 200px;word-break:break-all;">
+            <p th:text="${twitter.content}"></p>
+        </div>
+    </div>
+    <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 </body>
 <script th:src="@{js/common/jquery.min.js}"></script>

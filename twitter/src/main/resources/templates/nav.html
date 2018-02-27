@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/tomain">Twitter</a>
+                <a class="navbar-brand" href="/tomain" title="返回首页">Twitter</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,6 +37,11 @@
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a th:if="${session.user != null}" title="通知" href="#">
+                            <span class="glyphicon glyphicon-bell"  aria-hidden="true"></span>
+                        </a>
+                    </li>
                     <li>
                         <a th:if="${session.user != null}" title="发送推文"  href="/todeliverytwitter">
                             <span class="glyphicon glyphicon-send"  aria-hidden="true"></span>

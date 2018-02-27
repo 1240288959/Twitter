@@ -19,4 +19,6 @@ public interface UserService  {
     List<User> searchUser(String name,HttpSession session);
 
     User findUser(String id);
+
+    boolean updateUserInform(User user);
 }
