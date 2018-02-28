@@ -13,4 +13,6 @@ public interface CommentService {
     boolean addComment(Comment comment);
 
     List<Comment> getCommentByTwitterId(Twitter twitter);
+
+    Comment getCommentById(String id);
 }

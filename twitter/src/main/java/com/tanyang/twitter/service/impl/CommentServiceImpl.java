@@ -17,6 +17,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean addComment(Comment comment) {
         try{
+            int sumfloor=commentDao.countCommentByTwitter(comment.getTwitter());
+            comment.setFloor(sumfloor+1);
             commentDao.save(comment);
             return  true;
         }catch (Exception e){
@@ -34,5 +36,10 @@ public class CommentServiceImpl implements CommentService {
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public Comment getCommentById(String id){
+        return commentDao.findOne(id);
     }
 }

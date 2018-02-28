@@ -20,6 +20,11 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="user")
     private User user;
+    private int floor;
+
+    @ManyToOne
+    @JoinColumn(name = "parent")
+    private Comment parent;
 
     public Comment() {
         this.id= UuidUtil.getUUID();
@@ -66,6 +71,22 @@ public class Comment {
         this.user = user;
     }
 
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
+
+    public Comment getParent() {
+        return parent;
+    }
+
+    public void setParent(Comment parent) {
+        this.parent = parent;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -74,6 +95,8 @@ public class Comment {
                 ", date=" + date +
                 ", twitter=" + twitter +
                 ", user=" + user +
+                ", floor=" + floor +
+                ", parent='" + parent + '\'' +
                 '}';
     }
 }

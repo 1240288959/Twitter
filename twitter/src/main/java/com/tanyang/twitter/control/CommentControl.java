@@ -27,11 +27,20 @@ public class CommentControl {
 
     @RequestMapping("/addComment")
     @ResponseBody
-    public boolean addComment(String content, String twitter, HttpSession session){
+    public boolean addComment(String content, String twitter, String parent,HttpSession session){
         User user=(User)session.getAttribute("user");
         Comment comment=new Comment();
         Twitter twi= twitterServiceImpl.getTwitterById(twitter);
-        comment.setContent(content);
+        Comment parentComment=new Comment();
+        if("".equals(parent)||parent==null){
+            comment.setParent(null);
+            comment.setContent(content);
+        }else{
+            parentComment=commentServiceImpl.getCommentById(parent);
+            comment.setContent(content);
+            comment.setParent(parentComment);
+        }
+
         comment.setTwitter(twi);
         comment.setUser(user);
         return commentServiceImpl.addComment(comment);
@@ -44,6 +53,11 @@ public class CommentControl {
         List<Comment> list=null;
         Twitter twitter= twitterServiceImpl.getTwitterById(twitterid);
         list= commentServiceImpl.getCommentByTwitterId(twitter);
+        for(Comment comment:list){
+            if(comment.getParent()!=null&&!"".equals(comment.getParent())){
+                comment.setContent("<b style='color:black'>回复&nbsp;"+comment.getParent().getFloor()+"楼</b>&nbsp;&nbsp;"+comment.getContent());
+            }
+        }
         model.addAttribute("commentlist",list);
         return list;
     }

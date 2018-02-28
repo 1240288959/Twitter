@@ -16,4 +16,6 @@ public interface CommentDao extends JpaRepository<Comment,String>{
 
     @Query(value = "select * from comment where twitter=:twitterid order by date desc",nativeQuery = true)
     List<Comment> getAllByTwitterId(@Param("twitterid") String twitterid);
+
+    int countCommentByTwitter (Twitter twitter);
 }

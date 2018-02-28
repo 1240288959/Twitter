@@ -34,7 +34,7 @@ function updatacomment(id){
         data:"twitterid="+id,
         dataType:"json",
         success:function (msg) {
-            /*console.log(msg);*/
+            console.log(msg);
             for(var i in msg){
                 /*console.log(msg[i]);*/
                 var div=document.createElement("div");
@@ -50,18 +50,73 @@ function updatacomment(id){
                 $(dcontent).html(msg[i].content);
                 $(dcontent).attr("class","text-left");
 
-
-
                 var date=document.createElement("span");
                 $(date).html(msg[i].date+"&nbsp;");
 
                 var duser=document.createElement("span");
-                $(duser).html(msg[i].user.name);
+                $(duser).html(msg[i].user.name+"&nbsp;");
+
+                var dfloor=document.createElement("span");
+                $(dfloor).html(msg[i].floor+"楼&nbsp;");
+
+                var commenticon=document.createElement("span");
+                $(commenticon).attr("class","glyphicon glyphicon-comment");
+                $(commenticon).attr("onclick","commentCommentToggle(this)");
+
+                var cform=document.createElement("form");
+                $(cform).attr("class","col-sm-12");
+                $(cform).attr("hidden","hidden");
+                var cinput=document.createElement("input");
+                $(cinput).attr("name","parent");
+                $(cinput).attr("value",msg[i].id);
+                $(cinput).attr("hidden","hidden");
+                var ctextarea=document.createElement("textarea");
+                $(ctextarea).attr("name","content");
+                $(ctextarea).attr("class","form-control");
+                $(ctextarea).attr("style","resize: none;margin-bottom: 5px");
+                $(ctextarea).attr("placeholder","请输入评论");
+                $(ctextarea).attr("cols",20);
+                $(ctextarea).attr("rows",1);
+
+                var cbutton=document.createElement("span");
+                $(cbutton).html("回复");
+                $(cbutton).attr("class","btn btn-primary");
+                $(cbutton).attr("onclick","addCommentComment(this)");
+
+                $(cform).append(cinput,ctextarea,cbutton);
 
                 $(div1).append(dcontent);
-                $(div2).append(date,duser);
+                $(div2).append(date,duser,dfloor,commenticon,cform);
                 $(div).append(div1,div2);
+
+
+
                 $("#mydiv").append(div);
+            }
+            return false;
+        }
+    });
+    return false;
+}
+
+function commentCommentToggle(spanicon) {
+    $(spanicon).next().toggle();
+}
+
+function addCommentComment(button) {
+    var id=$("#modal-id").html();
+    $.ajax({
+        url:"/addComment",
+        type:"post",
+        data:{
+            content:$(button).prev().val(),
+            twitter:$("#modal-id").html(),
+            parent:$(button).prev().prev().val()
+        },
+        success:function (msg) {
+            if(msg==true){
+                updatacomment($("#modal-id").html());
+                $("#comment").val("");
             }
             return false;
         }
@@ -73,7 +128,7 @@ function addcomment() {
     var id=$("#modal-id").html();
     $.ajax({
         url:"/addComment",
-        type:"get",
+        type:"post",
         data:{
             content:$("#comment").val(),
             twitter:$("#modal-id").html()
