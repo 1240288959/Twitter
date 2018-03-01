@@ -17,14 +17,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean addComment(Comment comment) {
         try{
-            int sumfloor=commentDao.countCommentByTwitter(comment.getTwitter());
-            comment.setFloor(sumfloor+1);
             commentDao.save(comment);
             return  true;
         }catch (Exception e){
             e.printStackTrace();
             return  false;
         }
+    }
+
+    @Override
+    public int countCommentByTwitter(Twitter twitter){
+        return commentDao.countCommentByTwitter(twitter);
     }
 
     @Override

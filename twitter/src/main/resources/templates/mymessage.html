@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>我的消息</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+</head>
+<body>
+<div th:include="nav :: nav"></div>
+<div class="col-sm-2">
+    <div  style="width: 210px;margin-bottom: 30px">
+        <div  onclick="upload_click()" title="点击更改头像">
+            <img class="img-circle"  th:src="@{${session.user.getImageBase64()}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
+        </div>
+        <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
+        <p class="text-center" th:text="${session.user.name}"></p>
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <a href="/totwitter">我的推文</a>
+            </li>
+            <li class="active">
+                <a href="/tomymessage">我的消息<span  class="badge"></span></a>
+            </li>
+            <li>
+                <a href="/tomyinform">个人信息</a>
+            </li>
+            <li>
+                <a href="/tomain">返回主页</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-sm-6 col-sm-offset-2" style="margin-top: 10px">
+    <ul class="media-list">
+        <li th:each="message : ${messageList}" class="media">
+            <div class="media-body">
+                <b class="media-heading" th:text="${message.content}"></b>
+                <div style="word-break:break-all;">
+                    <p class="text-right" style='text-decoration:underline;' th:if="${message.type == 0}" onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
+            \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
+                    <div th:if="${message.type == 1}">
+                        <p class="text-right" style='text-decoration:underline;' onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
+            \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
+                    </div>
+                    <div th:if="${message.type == 2}">
+                        <p class="text-right" style='text-decoration:underline;' onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
+            \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
+                    </div>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+</div>
+<div th:include="twittermodelwindow :: twittermodelwindow"></div>
+</body>
+<script th:src="@{js/common/jquery.min.js}"></script>
+<script th:src="@{js/common/bootstrap.js}"></script>
+<script th:src="@{js/fileupload.js}"></script>
+<script th:src="@{js/message.js}"></script>
+<script th:src="@{js/modal-window-twitter.js}"></script>
+</html>

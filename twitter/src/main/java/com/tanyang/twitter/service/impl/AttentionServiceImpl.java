@@ -75,4 +75,14 @@ public class AttentionServiceImpl implements AttentionService {
             return  false;
         }
     }
+
+    @Override
+    public List<User> getAttent(String attentedid) {
+        List<String> attentIdList=attentionDao.getAttentByAttented(attentedid);
+        List<User> attentList=new ArrayList<>();
+        for(String id:attentIdList){
+            attentList.add(userDao.findOne(id));
+        }
+        return attentList;
+    }
 }

@@ -5,7 +5,7 @@
     <title>我的信息</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
-<body onload="setform()">
+<body onload="setform();getunread();">
 <div th:include="nav :: nav"></div>
 <div class="col-sm-2">
     <div  style="width: 210px;margin-bottom: 30px">
@@ -18,8 +18,11 @@
             <li>
                 <a href="/tomytwitter">我的推文</a>
             </li>
+            <li>
+                <a href="/tomymessage">我的消息<span  class="badge"></span></a>
+            </li>
             <li class="active">
-                <a href="/tomyinform">我的信息</a>
+                <a href="/tomyinform">个人信息</a>
             </li>
             <li>
                 <a href="/tomain">返回主页</a>
@@ -87,4 +90,5 @@
 <script th:src="@{js/common/ajaxfileupload .js}"></script>
 <script th:src="@{js/fileupload.js}"></script>
 <script th:src="@{js/myinform.js}"></script>
+<script th:src="@{js/message.js}"></script>
 </html>

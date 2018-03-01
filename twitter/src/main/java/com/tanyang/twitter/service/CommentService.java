@@ -15,4 +15,6 @@ public interface CommentService {
     List<Comment> getCommentByTwitterId(Twitter twitter);
 
     Comment getCommentById(String id);
+
+    int countCommentByTwitter(Twitter twitter);
 }

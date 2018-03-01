@@ -13,4 +13,6 @@ public interface AttentionService {
     boolean deleteByAttented(String id);
 
     boolean getAttention(String attent,String attented);
+
+    List<User> getAttent(String attentedid);
 }

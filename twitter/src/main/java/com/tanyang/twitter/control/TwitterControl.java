@@ -1,9 +1,8 @@
 package com.tanyang.twitter.control;
 
-import com.tanyang.twitter.pojo.Praise;
-import com.tanyang.twitter.pojo.PraiseTwitter;
-import com.tanyang.twitter.pojo.Twitter;
-import com.tanyang.twitter.pojo.User;
+import com.tanyang.twitter.pojo.*;
+import com.tanyang.twitter.service.impl.AttentionServiceImpl;
+import com.tanyang.twitter.service.impl.MessageServiceImpl;
 import com.tanyang.twitter.service.impl.PraiseServiceImpl;
 import com.tanyang.twitter.service.impl.TwitterServiceImpl;
 import org.slf4j.Logger;
@@ -27,6 +26,10 @@ public class TwitterControl {
     private TwitterServiceImpl twitterServiceImpl;
     @Autowired
     private PraiseServiceImpl praiseServiceImpl;
+    @Autowired
+    private MessageServiceImpl messageServiceImpl;
+    @Autowired
+    private AttentionServiceImpl attentionServiceImpl;
 
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
@@ -44,11 +47,6 @@ public class TwitterControl {
         model.addAttribute("list",praiseTwitterList);
         logger.info("list:"+list);
         return "main";
-    }
-
-    @RequestMapping("/tomypage")
-    public String toMyPage(){
-        return "mypage";
     }
 
     @RequestMapping("/tomytwitter")
@@ -74,6 +72,20 @@ public class TwitterControl {
         twitter.setUser(user);
         twitter.setTitle(title);
         twitter.setContent(content);
-        return twitterServiceImpl.deliveryTwitter(twitter);
+        boolean flag=twitterServiceImpl.deliveryTwitter(twitter);
+        if(flag==true){
+            List<User> attentUsers=attentionServiceImpl.getAttent(user.getId());
+            for(User attentuser:attentUsers){
+                Message message=new Message();
+                message.setType(2);
+                message.setTwitter(twitter);
+                message.setReceiver(user);
+                String messageContent="您关注的'"+user.getName()+"'的推主发布了主题为'"+twitter.getTitle()+"'推特：";
+                message.setContent(messageContent);
+                messageServiceImpl.save(message);
+            }
+        }
+        return flag;
     }
+
 }
