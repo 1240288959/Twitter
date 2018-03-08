@@ -5,7 +5,7 @@
     <title>主页</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
-<body>
+<body onload="getunread()">
 <div th:include="nav :: nav"></div>
 <div id="mymsg" class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
@@ -22,7 +22,7 @@
                 <a id="attentioned"  href="/toattented">关注列表</a>
             </li>
             <li>
-                <a href="/tomytwitter">个人中心</a>
+                <a href="/tomytwitter">个人中心<span title="您有新消息未读" class="badge"></span></a>
             </li>
         </ul>
     </div>
@@ -59,6 +59,7 @@
 <script th:src="@{js/common/ajaxfileupload .js}"></script>
 <script th:src="@{js/modal-window-twitter.js}"></script>
 <script th:src="@{js/main.js}"></script>
+<script th:src="@{js/message.js}"></script>
 <script th:src="@{js/fileupload.js}"></script>
 <script>
     $("#myModal").on("hidden",function () {

@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface MessageDao extends JpaRepository<Message,String>{
 
-    @Query(value = "select * from message where receiver=:receiverid ",nativeQuery = true)
+    @Query(value = "select * from message where receiver=:receiverid order by date desc",nativeQuery = true)
     List<Message> getMessageByReciver(@Param("receiverid") String receiverid);
 
-    @Query(value = "select count(*) from message where receiver=:receiverid and isread = 0",nativeQuery = true)
+    @Query(value = "select count(*) from message where receiver=:receiverid and isread = 0 ",nativeQuery = true)
     Integer countMessagesByReceiverAndIsread(@Param("receiverid")String receiverid);
 }

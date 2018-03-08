@@ -46,7 +46,7 @@ public class TwitterControl {
         }
         model.addAttribute("list",praiseTwitterList);
         logger.info("list:"+list);
-        return "main";
+        return "index";
     }
 
     @RequestMapping("/tomytwitter")
@@ -79,10 +79,11 @@ public class TwitterControl {
                 Message message=new Message();
                 message.setType(2);
                 message.setTwitter(twitter);
-                message.setReceiver(user);
+                message.setReceiver(attentuser);
                 String messageContent="您关注的'"+user.getName()+"'的推主发布了主题为'"+twitter.getTitle()+"'推特：";
                 message.setContent(messageContent);
                 messageServiceImpl.save(message);
+                //logger.info("为关注"+user.getName()+"的"+ attentuser.getName()+"添加信息");
             }
         }
         return flag;

@@ -19,7 +19,7 @@
                 <a href="/totwitter">我的推文</a>
             </li>
             <li class="active">
-                <a href="/tomymessage">我的消息<span  class="badge"></span></a>
+                <a href="/tomymessage">我的消息<span title="您有新消息未读" class="badge"></span></a>
             </li>
             <li>
                 <a href="/tomyinform">个人信息</a>
@@ -36,16 +36,10 @@
             <div class="media-body">
                 <b class="media-heading" th:text="${message.content}"></b>
                 <div style="word-break:break-all;">
-                    <p class="text-right" style='text-decoration:underline;' th:if="${message.type == 0}" onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
+                    <p class="text-right" style='text-decoration:underline;'  onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
             \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
-                    <div th:if="${message.type == 1}">
-                        <p class="text-right" style='text-decoration:underline;' onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
-            \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
-                    </div>
-                    <div th:if="${message.type == 2}">
-                        <p class="text-right" style='text-decoration:underline;' onmouseover="javascript:this.style.color='blue';" onmouseout="javascript:this.style.color='black';" th:onclick="'showmodal(\''+${message.twitter.id}+'\',\''+${message.twitter.title}+'\',\''+${message.twitter.user.name}+'\',
-            \''+${message.twitter.date}+'\',\''+${message.twitter.content}+'\')'">点击此处查看详情</p>
-                    </div>
+
+
                 </div>
             </div>
 
