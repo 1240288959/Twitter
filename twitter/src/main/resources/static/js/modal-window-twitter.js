@@ -62,6 +62,7 @@ function updatacomment(id){
                 var commenticon=document.createElement("span");
                 $(commenticon).attr("class","glyphicon glyphicon-comment");
                 $(commenticon).attr("onclick","commentCommentToggle(this)");
+                $(commenticon).attr("title","点击弹出或关闭输入栏");
 
                 var cform=document.createElement("form");
                 $(cform).attr("class","col-sm-12");

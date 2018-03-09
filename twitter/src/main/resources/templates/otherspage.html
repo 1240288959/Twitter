@@ -31,7 +31,12 @@
         <span th:text="${twitter.twitter.user.name}"></span>
         <span th:text="${twitter.twitter.date}"></span>
         <div style="width: 200px;word-break:break-all;">
-            <p th:text="${twitter.twitter.content}"></p>
+            <div th:if="${twitter.twitter.content.length()>30}">
+                <p th:text="${twitter.twitter.content.substring(0,30)+'...'}"></p>
+            </div>
+            <div th:unless="${twitter.twitter.content.length()>30}">
+                <p th:text="${twitter.twitter.content}"></p>
+            </div>
         </div>
     </div>
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>

@@ -86,11 +86,20 @@ public class UserControl {
             logger.info("文件为空");
             return false;
         }
-        img_name=image.getOriginalFilename();
-        logger.info("文件名为："+img_name);
-        File file=new File(file_path+img_name);
+        String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        img_name=image.getOriginalFilename().substring(0,image.getOriginalFilename().lastIndexOf('.'));
+        logger.info("文件名为："+img_name+suffix);
+        if(!".jpg".equalsIgnoreCase(suffix)&&!".png".equalsIgnoreCase(suffix)){
+            return false;
+        }
+
+        File file=new File(file_path+img_name+suffix);
         if(!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
+        }
+        while(file.exists()){
+            img_name=new String(img_name+"_1");
+            file=new File(new String(file_path+img_name+suffix));
         }
         try{
             image.transferTo(file);
@@ -99,8 +108,8 @@ public class UserControl {
             return false;
         }
         User user=(User)session.getAttribute("user");
-        userServiceImpl.setImage(img_name,user.getId());
-        user.setImage(img_name);
+        userServiceImpl.setImage(new String(img_name+suffix),user.getId());
+        user.setImage(new String(img_name+suffix));
         session.setAttribute("user",user);
         return true;
     }

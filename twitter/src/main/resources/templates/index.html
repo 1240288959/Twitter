@@ -16,7 +16,7 @@
         <p class="text-center" th:text="${session.user.name}"></p>
         <ul class="nav nav-pills nav-stacked">
             <li class="active">
-                <a href="/tomain">我的主页</a>
+                <a >我的主页</a>
             </li>
             <li>
                 <a id="attentioned"  href="/toattented">关注列表</a>
@@ -46,7 +46,12 @@
                 <span th:text="${twitter.twitter.user.name}"></span>
                 <span th:text="${twitter.twitter.date}"></span>
                 <div style="width: 200px;word-break:break-all;">
-                    <p th:text="${twitter.twitter.content}"></p>
+                    <div th:if="${twitter.twitter.content.length()>30}">
+                        <p th:text="${twitter.twitter.content.substring(0,30)+'...' }"></p>
+                    </div>
+                    <div th:unless="${twitter.twitter.content.length()>30}">
+                        <p th:text="${twitter.twitter.content }"></p>
+                    </div>
                 </div>
             </div>
         </li>

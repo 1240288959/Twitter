@@ -16,7 +16,7 @@
         <p class="text-center" th:text="${session.user.name}"></p>
         <ul class="nav nav-pills nav-stacked">
             <li class="active">
-                <a href="/totwitter">我的推文</a>
+                <a >我的推文</a>
             </li>
             <li>
                 <a href="/tomymessage">我的消息<span title="您有新消息未读" class="badge"></span></a>
@@ -39,7 +39,12 @@
         <span th:text="${twitter.user.name}"></span>
         <span th:text="${twitter.date}"></span>
         <div style="width: 200px;word-break:break-all;">
-            <p th:text="${twitter.content}"></p>
+            <div th:if="${twitter.content.length()>30}">
+                <p th:text="${twitter.content.substring(0,30)+'...' }"></p>
+            </div>
+            <div th:unless="${twitter.content.length()>30}">
+                <p th:text="${twitter.content}"></p>
+            </div>
         </div>
     </div>
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>
