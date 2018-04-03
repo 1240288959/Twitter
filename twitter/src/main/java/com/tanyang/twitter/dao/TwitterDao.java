@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,4 +24,7 @@ public interface TwitterDao extends JpaRepository<Twitter,String> {
 
     @Query(value = "select * from twitter where user =:id order by date desc",nativeQuery = true)
     List<Twitter> getTwitterByUserId(@Param("id") String id);
+
+    @Query(value = "select * from twitter where user in (select attented from attention where attent=:id) or user = :id and date<:time order by date desc limit :tstart, :num",nativeQuery = true)
+    List<Twitter> getTwitterPageByAttention(@Param("id") String id,@Param("time")Date time,@Param("tstart")Integer tstart,@Param("num")Integer num);
 }

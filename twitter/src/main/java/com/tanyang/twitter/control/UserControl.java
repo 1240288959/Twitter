@@ -2,6 +2,7 @@ package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.pojo.*;
 import com.tanyang.twitter.service.impl.*;
+import com.tanyang.twitter.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +109,8 @@ public class UserControl {
             return false;
         }
         User user=(User)session.getAttribute("user");
-        userServiceImpl.setImage(new String(img_name+suffix),user.getId());
-        user.setImage(new String(img_name+suffix));
+        userServiceImpl.setImage(new ImageUtil().getImageBase64Coder(new String(img_name+suffix)),user.getId());
+        user.setImage(new ImageUtil().getImageBase64Coder(new String(img_name+suffix)));
         session.setAttribute("user",user);
         return true;
     }
@@ -137,6 +138,7 @@ public class UserControl {
     @RequestMapping("/tootherspage")
     public String otherspage(String id,Model model,HttpSession session){
         logger.info("id:"+id);
+        System.out.println(id);
         AttentedUser attentedUser=new AttentedUser();
         User user=(User)session.getAttribute("user");
         User otheruser= userServiceImpl.findUser(id);

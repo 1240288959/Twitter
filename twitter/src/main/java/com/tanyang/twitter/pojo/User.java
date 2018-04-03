@@ -110,13 +110,6 @@ public class User {
         this.gender = gender;
     }
 
-    /**
-     * 获取base64 编码的图片字符串
-     */
-    public String getImageBase64(){
-        return new ImageUtil().getImageBase64Coder(image);
-    }
-
     @Override
     public String toString() {
         return "User{" +

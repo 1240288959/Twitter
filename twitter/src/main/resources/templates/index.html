@@ -5,12 +5,12 @@
     <title>主页</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
-<body onload="getunread()">
+<body onload="getunread();showMoreTwitter(page++)">
 <div th:include="nav :: nav"></div>
 <div id="mymsg" class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
         <div  onclick="upload_click()" title="点击更改头像">
-            <img class="img-circle"  th:src="@{${session.user.getImageBase64()}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
+            <img class="img-circle"  th:src="@{${session.user.image}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
         </div>
         <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
         <p class="text-center" th:text="${session.user.name}"></p>
@@ -33,11 +33,11 @@
 </div>
 
 <div id="twitter" class="col-sm-6 col-sm-offset-2" style="margin-top: 10px">
-    <ul class="media-list">
-        <li th:each="twitter:${list}" class="media">
+    <ul id="twitterList" class="media-list">
+        <!--<li th:each="twitter:${list}" class="media">
             <div style="float: left">
                 <a title="点击查看他的推文" th:href="'/tootherspage?id='+${twitter.twitter.user.id}+''">
-                    <img class="media-object img-circle" th:src="@{${twitter.twitter.user.getImageBase64()}}" alt="此处为头像" style="width: 100px;height: 100px"/>
+                    <img class="media-object img-circle" th:src="@{${twitter.twitter.user.image}}" alt="此处为头像" style="width: 100px;height: 100px"/>
                 </a>
             </div>
             <div class="media-body" th:onclick="'showmodal(\''+${twitter.twitter.id}+'\',\''+${twitter.twitter.title}+'\',\''+${twitter.twitter.user.name}+'\',
@@ -54,8 +54,15 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li>-->
     </ul>
+    <nav aria-label="...">
+        <ul class="pager" style="width: 100%;display: inline-table">
+            <li id="more" style="width: 100%;display: inline-table" onclick="showMoreTwitter(page++)" >
+                <a style="width: 100%;display: inline-table">更多推文</a>
+            </li>
+        </ul>
+    </nav>
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 </body>
@@ -63,7 +70,7 @@
 <script th:src="@{js/common/bootstrap.js}"></script>
 <script th:src="@{js/common/ajaxfileupload .js}"></script>
 <script th:src="@{js/modal-window-twitter.js}"></script>
-<script th:src="@{js/main.js}"></script>
+<script th:src="@{js/index.js}"></script>
 <script th:src="@{js/message.js}"></script>
 <script th:src="@{js/fileupload.js}"></script>
 <script>
@@ -71,5 +78,9 @@
         $(this).removeData();
         $("#mydiv").remove();
     });
+</script>
+<script>
+    var page=1;
+
 </script>
 </html>

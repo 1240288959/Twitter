@@ -10,7 +10,7 @@
 <div id="mymsg" class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
         <div  onclick="upload_click()" title="点击更改头像">
-            <img class="img-circle"  th:src="@{${session.user.getImageBase64()}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
+            <img class="img-circle"  th:src="@{${session.user.image}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
         </div>
         <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
         <p class="text-center" th:text="${session.user.name}"></p>
@@ -35,7 +35,7 @@
 
 <div  th:each="user:${list}"  class="col-sm-6 col-sm-offset-2" style="margin-bottom: 10px">
     <a th:href="'/tootherspage?id='+${user.id}+''">
-        <img class="img-circle"  th:src="@{${user.getImageBase64()}}" alt="...此处为被关注者的头像" style="width: 100px;height: 100px"/>
+        <img class="img-circle"  th:src="@{${user.image}}" alt="...此处为被关注者的头像" style="width: 100px;height: 100px"/>
     </a>
     <button class="btn btn-primary" th:onclick="'deleteattented(\''+${user.id}+'\',this)'" >关注中</button>
     <span th:text="${user.name}"></span>

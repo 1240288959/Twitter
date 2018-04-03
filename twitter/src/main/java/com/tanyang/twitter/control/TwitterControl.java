@@ -1,5 +1,7 @@
 package com.tanyang.twitter.control;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.*;
 import com.tanyang.twitter.service.impl.AttentionServiceImpl;
 import com.tanyang.twitter.service.impl.MessageServiceImpl;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -33,9 +36,18 @@ public class TwitterControl {
 
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
+        session.setAttribute("toMainTime",new Date(System.currentTimeMillis()));
+        return "index";
+    }
+
+    @RequestMapping("/getMainTwitter")
+    @ResponseBody
+    public String getTwitterInMain(Integer page,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
         User user=(User)session.getAttribute("user");
+        Date time= (Date) session.getAttribute("toMainTime");
         logger.info("id :"+user.getId());
-        List<Twitter> list= twitterServiceImpl.getTwitterByAttention(user.getId());
+        List<Twitter> list= twitterServiceImpl.getTwitterPageByAttention(user.getId(),time,page);
         List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
         for(Twitter twitter:list){
             Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
@@ -44,9 +56,16 @@ public class TwitterControl {
             praiseTwitter.setTwitter(twitter);
             praiseTwitterList.add(praiseTwitter);
         }
-        model.addAttribute("list",praiseTwitterList);
         logger.info("list:"+list);
-        return "index";
+        System.out.println(praiseTwitterList);
+        String jsonStr;
+        try {
+            jsonStr=mapper.writeValueAsString(praiseTwitterList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            jsonStr="";
+        }
+        return jsonStr;
     }
 
     @RequestMapping("/tomytwitter")
