@@ -61,7 +61,7 @@ public class CommentControl {
             message.setTwitter(twi);
             message.setType(1);
             message.setReceiver(parentComment.getUser());
-            String messageContent=comment.getUser().getName()+"在"+comment.getFloor()+"楼回复了你在"+comment.getParent().getFloor()+"楼评论：";
+            String messageContent=comment.getUser().getName()+"在"+comment.getFloor()+"楼回复了你在'"+comment.getTwitter().getTitle()+"'的"+comment.getParent().getFloor()+"楼的评论：";
             message.setContent(messageContent);
             messageServiceImpl.save(message);
         }

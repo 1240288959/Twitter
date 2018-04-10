@@ -29,6 +29,13 @@ public class TwitterServiceImpl implements TwitterService {
     }
 
     @Override
+    public List<Twitter> getTwitterPageByUserId(String id, Date time, Integer page) {
+        Integer tstart=(page-1)*twiNumPerPage;
+        Integer num=twiNumPerPage;
+        return twitterDao.getTwitterPageByUserId(id,time,tstart,num);
+    }
+
+    @Override
     public boolean deliveryTwitter(Twitter twitter) {
         try{
             twitterDao.save(twitter);

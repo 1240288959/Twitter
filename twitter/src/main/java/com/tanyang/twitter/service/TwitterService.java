@@ -11,6 +11,8 @@ public interface TwitterService {
 
     List<Twitter> getTwitterByUserId(String id);
 
+    List<Twitter> getTwitterPageByUserId(String id,Date time,Integer page);
+
     boolean deliveryTwitter(Twitter twitter);
 
     Twitter getTwitterById(String twitterid);

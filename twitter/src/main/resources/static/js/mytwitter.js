@@ -1,56 +1,8 @@
-function deleteattented(id,button) {
-    console.log(id);
+function showMoreTwitter(page){
     $.ajax({
-        url: "/deleteattented",
-        type:"get",
-        data:"id="+id,
-        success:function (msg) {
-            if(msg==true){
-                console.log("成功");
-                $(button).text("关注");
-                $(button).removeAttr("onclick");
-                $(button).attr("onclick","addattented(\'"+id+"\',this)");
-
-            }else{
-                console.log("失败");
-            }
-            return false;
-        }
-    });
-    return false;
-}
-
-function addattented(id,button) {
-    console.log(id);
-    $.ajax({
-        url: "/addattented",
-        type:"get",
-        data:"id="+id,
-        success:function (msg) {
-            var btn="<button>关注中</button>";
-            if(msg==true){
-                console.log("成功");
-                $(button).text("关注中");
-                $(button).removeAttr("onclick");
-                $(button).attr("onclick","deleteattented(\'"+id+"\',this)");
-
-            }else{
-                console.log("失败");
-            }
-            return false;
-        }
-    });
-    return false;
-}
-
-function showMoreTwitter(id,page){
-    $.ajax({
-        url:"/getOthersTwitter",
+        url:"/getMyTwitter",
         type:"post",
-        data:{
-          "id":id,
-          "page":page
-        },
+        data:"page="+page,
         dataType:"json",
         success:function(msg){
             console.log(msg);
@@ -66,10 +18,10 @@ function showMoreTwitter(id,page){
                 $(divDom).attr("style","float: left");
                 var aDom=document.createElement("a");
                 $(aDom).attr("title","点击查看他的推文");
-                $(aDom).attr("href","/tootherspage?id="+msg[i].twitter.user.id);
+                $(aDom).attr("href","/tootherspage?id="+msg[i].user.id);
                 var imgDom=document.createElement("img");
                 $(imgDom).attr("class","media-object img-circle");
-                $(imgDom).attr("src",msg[i].twitter.user.image);
+                $(imgDom).attr("src",msg[i].user.image);
                 $(imgDom).attr("alt","此处为头像");
                 $(imgDom).attr("style","width: 100px;height: 100px");
 
@@ -79,25 +31,25 @@ function showMoreTwitter(id,page){
                 //显示内容标题
                 divDom=document.createElement("div");
                 $(divDom).attr("class","media-body");
-                $(divDom).attr("onclick","showmodal('"+msg[i].twitter.id+"','"+msg[i].twitter.title+"','"+msg[i].twitter.user.name+"','"+msg[i].twitter.date+"','"+msg[i].twitter.content+"')");
+                $(divDom).attr("onclick","showmodal('"+msg[i].id+"','"+msg[i].title+"','"+msg[i].user.name+"','"+msg[i].date+"','"+msg[i].content+"')");
                 var h4Dom=document.createElement("h4");
                 $(h4Dom).attr("style","margin-left:5px");
                 $(h4Dom).attr("class","media-heading");
-                $(h4Dom).html(msg[i].twitter.title);
+                $(h4Dom).html(msg[i].title);
 
                 var spanDom=document.createElement("span");
-                $(spanDom).html(msg[i].twitter.user.name+"&nbsp;&nbsp;");
+                $(spanDom).html(msg[i].user.name+"&nbsp;&nbsp;");
                 $(spanDom).attr("style","margin-left:5px");
                 var spanDom2=document.createElement("span");
-                $(spanDom2).html(msg[i].twitter.date);
+                $(spanDom2).html(msg[i].date);
                 $(spanDom2).attr("class","text-right");
                 var divDom2=document.createElement("div");
                 $(divDom2).attr("style","width: 200px;height:80px;margin-left:5px;word-break:break-all;");
                 var content;
-                if(msg[i].twitter.content.length>100){
-                    content=msg[i].twitter.content.substring(0,100)+"...";
+                if(msg[i].content.length>100){
+                    content=msg[i].content.substring(0,100)+"...";
                 }else{
-                    content=msg[i].twitter.content;
+                    content=msg[i].content;
                 }
                 $(divDom2).html(content);
 

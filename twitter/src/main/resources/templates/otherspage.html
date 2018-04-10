@@ -5,7 +5,7 @@
     <title>他的主页</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
-<body>
+<body th:onload="'showMoreTwitter(\''+${attenteduser.user.id}+'\',page++)'">
 <div th:include="nav :: nav"></div>
 <div class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
@@ -25,7 +25,7 @@
 </div>
 <div class="col-sm-6 col-sm-offset-2">
     <!---此处是显示他个人推特的地方-->
-    <div th:each="twitter:${list}" style="margin-bottom: 10px" th:onclick="'showmodal(\''+${twitter.twitter.id}+'\',\''+${twitter.twitter.title}+'\',\''+${twitter.twitter.user.name}+'\',
+<!--    <div th:each="twitter:${list}" style="margin-bottom: 10px" th:onclick="'showmodal(\''+${twitter.twitter.id}+'\',\''+${twitter.twitter.title}+'\',\''+${twitter.twitter.user.name}+'\',
             \''+${twitter.twitter.date}+'\',\''+${twitter.twitter.content}+'\')'" >
         <h4 class="media-heading" th:text="${twitter.twitter.title}"></h4>
         <span th:text="${twitter.twitter.user.name}"></span>
@@ -38,7 +38,17 @@
                 <p th:text="${twitter.twitter.content}"></p>
             </div>
         </div>
-    </div>
+    </div>-->
+    <ul id="twitterList" class="media-list">
+
+    </ul>
+    <nav aria-label="...">
+        <ul class="pager" style="width: 100%;display: inline-table">
+            <li id="more" style="width: 100%;display: inline-table" th:onclick="'showMoreTwitter(\''+${attenteduser.user.id}+'\',page++)'" >
+                <a style="width: 100%;display: inline-table">更多推文</a>
+            </li>
+        </ul>
+    </nav>
     <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
 
@@ -47,4 +57,7 @@
 <script th:src="@{js/common/bootstrap.js}"></script>
 <script th:src="@{js/modal-window-twitter.js}"></script>
 <script th:src="@{js/otherspage.js}"></script>
+<script>
+    var page=1;
+</script>
 </html>

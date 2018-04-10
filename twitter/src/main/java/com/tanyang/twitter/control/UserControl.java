@@ -1,5 +1,7 @@
 package com.tanyang.twitter.control;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.*;
 import com.tanyang.twitter.service.impl.*;
 import com.tanyang.twitter.utils.ImageUtil;
@@ -139,6 +141,7 @@ public class UserControl {
     public String otherspage(String id,Model model,HttpSession session){
         logger.info("id:"+id);
         System.out.println(id);
+        session.setAttribute("toOthersPageTime",new java.util.Date(System.currentTimeMillis()));
         AttentedUser attentedUser=new AttentedUser();
         User user=(User)session.getAttribute("user");
         User otheruser= userServiceImpl.findUser(id);
@@ -147,7 +150,7 @@ public class UserControl {
         attentedUser.setUser(otheruser);
         attentedUser.setAttented(attented);
         model.addAttribute("attenteduser",attentedUser);
-        List<Twitter> list= twitterServiceImpl.getTwitterByUserId(id);
+        /*List<Twitter> list= twitterServiceImpl.getTwitterByUserId(id);
         List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
         for(Twitter twitter:list){
             Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
@@ -156,9 +159,43 @@ public class UserControl {
             praiseTwitter.setTwitter(twitter);
             praiseTwitterList.add(praiseTwitter);
         }
-        model.addAttribute("list",praiseTwitterList);
+        model.addAttribute("list",praiseTwitterList);*/
         return "otherspage";
     }
+
+    @RequestMapping("/getOthersTwitter")
+    @ResponseBody
+    public String getOthersTwitter(String id,int page,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        java.util.Date time= (java.util.Date) session.getAttribute("toOthersPageTime");
+        logger.info("id:"+id);
+        System.out.println(id);
+        AttentedUser attentedUser=new AttentedUser();
+        User user=(User)session.getAttribute("user");
+        User otheruser= userServiceImpl.findUser(id);
+        logger.info("user:"+otheruser);
+        boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
+        attentedUser.setUser(otheruser);
+        attentedUser.setAttented(attented);
+
+        List<Twitter> list= twitterServiceImpl.getTwitterPageByUserId(id,time,page);
+        List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
+        for(Twitter twitter:list){
+            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+            PraiseTwitter praiseTwitter=new PraiseTwitter();
+            praiseTwitter.setPraise(praise);
+            praiseTwitter.setTwitter(twitter);
+            praiseTwitterList.add(praiseTwitter);
+        }
+        String jsonStr="";
+        try {
+            jsonStr=mapper.writeValueAsString(praiseTwitterList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
+    }
+
 
     @RequestMapping("/logout")
     public String logout(HttpSession session){

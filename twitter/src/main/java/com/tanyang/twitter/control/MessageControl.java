@@ -1,5 +1,7 @@
 package com.tanyang.twitter.control;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.Message;
 import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.impl.MessageServiceImpl;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,11 +28,30 @@ public class MessageControl {
     @RequestMapping("/tomymessage")
     public String toMyMessage(Model model, HttpSession session){
         User currentUser= (User) session.getAttribute("user");
+        session.setAttribute("toMyMessageTime",new Date(System.currentTimeMillis()));
         List<Message> messageList=messageServiceImpl.getMessageByReceiver(currentUser);
         model.addAttribute("messageList",messageList);
         logger.info(""+messageList);
         messageServiceImpl.doMessageReaded(messageList);
         return "mymessage";
+    };
+
+    @RequestMapping("/getMyMessage")
+    @ResponseBody
+    public String getMyMessage(int page, HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        User currentUser= (User) session.getAttribute("user");
+        Date time= (Date) session.getAttribute("toMyMessageTime");
+        List<Message> messageList=messageServiceImpl.getMessagePageByReceiver(currentUser,time,page);
+        logger.info(""+messageList);
+        messageServiceImpl.doMessageReaded(messageList);
+        String jsonStr="";
+        try {
+            jsonStr=mapper.writeValueAsString(messageList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
     };
 
     @RequestMapping("/getunread")

@@ -35,6 +35,12 @@ function updatacomment(id){
         dataType:"json",
         success:function (msg) {
             console.log(msg);
+            var h4Dom=document.createElement("h4");
+            $(h4Dom).attr("class","text-left");
+            $(h4Dom).html("评论区");
+            if(msg.length!=0) {
+                $("#mydiv").append(h4Dom);
+            }
             for(var i in msg){
                 /*console.log(msg[i]);*/
                 var div=document.createElement("div");

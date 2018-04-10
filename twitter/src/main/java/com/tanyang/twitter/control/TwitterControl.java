@@ -69,12 +69,30 @@ public class TwitterControl {
     }
 
     @RequestMapping("/tomytwitter")
-    public String getMyTwitter(Model model,HttpSession session){
+    public String toMyTwitter(Model model,HttpSession session){
         User user=(User)session.getAttribute("user");
+        session.setAttribute("toMyTwitterTime",new Date(System.currentTimeMillis()));
         List<Twitter> list= twitterServiceImpl.getTwitterByUserId(user.getId());
-        model.addAttribute("list",list);
-        logger.info("list:"+list);
+       /* model.addAttribute("list",list);
+        logger.info("list:"+list);*/
         return "mytwitter";
+    }
+
+    @RequestMapping("/getMyTwitter")
+    @ResponseBody
+    public String getTwitterInMyTwitter(int page,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        User user=(User)session.getAttribute("user");
+        Date time= (Date) session.getAttribute("toMyTwitterTime");
+        List<Twitter> list= twitterServiceImpl.getTwitterPageByUserId(user.getId(),time,page);
+        String jsonStr;
+        try {
+            jsonStr=mapper.writeValueAsString(list);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            jsonStr="";
+        }
+        return jsonStr;
     }
 
     @RequestMapping("/todeliverytwitter")
