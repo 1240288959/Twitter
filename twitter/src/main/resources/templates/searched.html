@@ -5,18 +5,33 @@
     <title>查找用户</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
 </head>
-<body>
+<body th:onload="'showMoreUser(\''+${name}+'\',page++)'">
 <div th:include="nav :: nav"></div>
-<div th:each="attenteduser:${list}" style="margin-bottom: 10px">
+<!--<div th:each="attenteduser:${list}" style="margin-bottom: 10px">
     <a th:href="'/tootherspage?id='+${attenteduser.user.id}+''">
         <img class="img-circle" style="width: 100px;height: 100px" th:src="@{${attenteduser.user.image}}" alt="...此处为查找到的头像"/>
     </a>
     <button class="btn btn-primary" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
     <button class="btn btn-primary" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
     <span th:text="${attenteduser.user.name}"></span>
+</div>-->
+<div class="col-sm-6" style="margin-top: 10px">
+    <div id="searchedList">
+
+    </div>
+    <nav aria-label="...">
+        <ul class="pager" style="width: 100%;display: inline-table">
+            <li id="more" style="width: 100%;display: inline-table" th:onclick="'showMoreUser(\''+${name}+'\',page++)'" >
+                <a style="width: 100%;display: inline-table">更多用户</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 <script th:src="@{js/common/jquery.min.js}" ></script>
 <script th:src="@{js/common/bootstrap.js}"></script>
 <script th:src="@{js/searched.js}"></script>
+<script>
+    var page=1;
+</script>
 </html>

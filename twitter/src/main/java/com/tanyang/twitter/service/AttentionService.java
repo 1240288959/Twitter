@@ -8,6 +8,8 @@ import java.util.List;
 public interface AttentionService {
     List<User> getAttented(String id);
 
+    List<User> getAttentedPage(String id,int page);
+
     boolean addAttented(String Attent,String Attented);
 
     boolean deleteByAttented(String id);
@@ -15,4 +17,6 @@ public interface AttentionService {
     boolean getAttention(String attent,String attented);
 
     List<User> getAttent(String attentedid);
+
+
 }

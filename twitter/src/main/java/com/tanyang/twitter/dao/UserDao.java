@@ -26,5 +26,8 @@ public interface UserDao extends JpaRepository<User,String> {
     @Query(value = "select *  from user where name like %:name% and name <> :username",nativeQuery = true)
     List<User> getUserByName(@Param("name") String name,@Param("username") String username);
 
+    @Query(value = "select * from user where name like %:name% and name<>:username limit :tstart, :num",nativeQuery = true)
+    List<User> getUserPageByName(@Param("name") String name,@Param("username") String username,@Param("tstart") Integer tstart,@Param("num") Integer num);
+
 
 }

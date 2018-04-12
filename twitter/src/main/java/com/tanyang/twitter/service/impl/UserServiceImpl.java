@@ -6,6 +6,7 @@ import com.tanyang.twitter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger= LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserDao userDao;
+    @Value("${peoNumPerPage}")
+    private int peoNumPerPage;
+
 
     public boolean login(String email, String password, HttpSession session){
         User user=null;
@@ -96,6 +100,14 @@ public class UserServiceImpl implements UserService {
     public List<User> searchUser(String name,HttpSession session) {
         String username=((User)session.getAttribute("user")).getName();
         return userDao.getUserByName(name,username);
+    }
+
+    @Override
+    public List<User> searchUserPage(String name, int page, HttpSession session) {
+        String username=((User)session.getAttribute("user")).getName();
+        Integer tstart=(page-1)*peoNumPerPage;
+        Integer num=peoNumPerPage;
+        return userDao.getUserPageByName(name,username,tstart,num);
     }
 
     @Override

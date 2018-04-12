@@ -8,6 +8,7 @@ import com.tanyang.twitter.service.AttentionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,11 +21,27 @@ public class AttentionServiceImpl implements AttentionService {
     private AttentionDao attentionDao;
     @Autowired
     private UserDao userDao;
-
+    @Value("${peoNumPerPage}")
+    private int peoNumPerPage;
     @Override
     public List<User> getAttented(String id) {
         List<User> userlist=new ArrayList<>();
         List<String> list= attentionDao.getUserByAttent(id);
+        for(String str:list){
+            logger.info(str);
+            User user=userDao.findOne(str);
+            logger.info(user.toString());
+            userlist.add(user);
+        }
+        return userlist;
+    }
+
+    @Override
+    public List<User> getAttentedPage(String id,int page) {
+        Integer tstart=(page-1)*peoNumPerPage;
+        Integer num=peoNumPerPage;
+        List<User> userlist=new ArrayList<>();
+        List<String> list= attentionDao.getUserPageByAttent(id,tstart,num);
         for(String str:list){
             logger.info(str);
             User user=userDao.findOne(str);

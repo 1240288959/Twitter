@@ -18,6 +18,8 @@ public interface UserService  {
 
     List<User> searchUser(String name,HttpSession session);
 
+    List<User> searchUserPage(String name,int page,HttpSession session);
+
     User findUser(String id);
 
     boolean updateUserInform(User user);

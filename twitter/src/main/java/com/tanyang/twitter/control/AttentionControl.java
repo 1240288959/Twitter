@@ -1,5 +1,7 @@
 package com.tanyang.twitter.control;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.User;
 import com.tanyang.twitter.service.impl.AttentionServiceImpl;
 import org.slf4j.Logger;
@@ -23,11 +25,26 @@ public class AttentionControl {
 
     @RequestMapping("/toattented")
     public String getAttentByUserId(Model model,HttpSession session){
-        User user=(User)session.getAttribute("user");
+      /*  User user=(User)session.getAttribute("user");
         List<User> list=attentionServiceimpl.getAttented(user.getId());
-        model.addAttribute("list",list);
+        model.addAttribute("list",list);*/
         return "attented";
     };
+
+    @RequestMapping("/getAttented")
+    @ResponseBody
+    public String getAttentPageByUserId(int page,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        User user=(User)session.getAttribute("user");
+        List<User> list=attentionServiceimpl.getAttentedPage(user.getId(),page);
+        String jsonStr="";
+        try {
+            jsonStr=mapper.writeValueAsString(list);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
+    }
 
     @RequestMapping("/addattented")
     @ResponseBody

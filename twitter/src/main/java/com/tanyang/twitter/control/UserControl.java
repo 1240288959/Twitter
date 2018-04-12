@@ -119,7 +119,7 @@ public class UserControl {
 
     @RequestMapping("/tosearched")
     public String searchuser(String name,Model model,HttpSession session){
-        String attentId=((User)session.getAttribute("user")).getId();
+        /*String attentId=((User)session.getAttribute("user")).getId();
         List<User> userlist=null;
         List<AttentedUser> attentedUserList=new ArrayList<>();
         try{
@@ -133,8 +133,36 @@ public class UserControl {
         }catch (Exception e){
             e.printStackTrace();
         }
-        model.addAttribute("list",attentedUserList);
+        model.addAttribute("list",attentedUserList);*/
+        model.addAttribute("name",name);
         return "searched";
+    }
+
+    @RequestMapping("/getSearched")
+    @ResponseBody
+    public String searchuserPage(String name,int page,Model model,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        String attentId=((User)session.getAttribute("user")).getId();
+        List<User> userlist=null;
+        List<AttentedUser> attentedUserList=new ArrayList<>();
+        try{
+            userlist= userServiceImpl.searchUserPage(name,page,session);
+            for(User user:userlist){
+                boolean attented=attentionServiceimpl.getAttention(attentId,user.getId());
+                AttentedUser attentedUser=new AttentedUser(user,attented);
+                logger.info(attentedUser.toString());
+                attentedUserList.add(attentedUser);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        String jsonStr="";
+        try {
+            jsonStr=mapper.writeValueAsString(attentedUserList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
     }
 
     @RequestMapping("/tootherspage")

@@ -19,6 +19,9 @@ public interface AttentionDao extends JpaRepository<Attention,String>{
     @Query(value = "select attented from attention where attent=:id",nativeQuery = true)
     List<String> getUserByAttent(@Param("id") String id);
 
+    @Query(value = "select attented from attention where attent=:id limit :tstart,:num",nativeQuery = true)
+    List<String> getUserPageByAttent(@Param("id") String id,@Param("tstart") Integer tstart,@Param("num") Integer num);
+
     @Query(value = "delete from attention where attented =:id",nativeQuery = true)
     @Modifying
     Integer deleteByAttented(@Param("id") String id);
@@ -28,4 +31,6 @@ public interface AttentionDao extends JpaRepository<Attention,String>{
 
     @Query(value = "select attent from attention where attented= :id",nativeQuery = true)
     List<String> getAttentByAttented(@Param("id") String attentid);
+
+
 }
