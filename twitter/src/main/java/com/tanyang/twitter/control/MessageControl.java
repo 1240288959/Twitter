@@ -31,7 +31,7 @@ public class MessageControl {
         session.setAttribute("toMyMessageTime",new Date(System.currentTimeMillis()));
         List<Message> messageList=messageServiceImpl.getMessageByReceiver(currentUser);
         model.addAttribute("messageList",messageList);
-        logger.info(""+messageList);
+        /*logger.info(""+messageList);*/
         messageServiceImpl.doMessageReaded(messageList);
         return "mymessage";
     };
@@ -43,7 +43,7 @@ public class MessageControl {
         User currentUser= (User) session.getAttribute("user");
         Date time= (Date) session.getAttribute("toMyMessageTime");
         List<Message> messageList=messageServiceImpl.getMessagePageByReceiver(currentUser,time,page);
-        logger.info(""+messageList);
+        /*logger.info(""+messageList);*/
         messageServiceImpl.doMessageReaded(messageList);
         String jsonStr="";
         try {
@@ -58,7 +58,7 @@ public class MessageControl {
     @ResponseBody
     public int getUnread(HttpSession session){
         User currentUser= (User) session.getAttribute("user");
-        System.out.println("userid "+currentUser.getId());
+        /*System.out.println("userid "+currentUser.getId());*/
         int count=messageServiceImpl.countUnreadedMessageByReceiver(currentUser);
         return count;
     }

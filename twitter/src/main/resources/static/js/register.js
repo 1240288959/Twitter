@@ -17,11 +17,11 @@ function register() {
         },
         success:function (msg) {
             if(msg==true){
-                window.alert("注册成功");
+                window.alert("注册成功，已发送邮件请访问地址激活账户");
                 flag=true;
             }
             else{
-                window.alert("注册失败");
+                window.alert("注册失败，原因可能为名称重复");
                 flag=false;
             }
         }

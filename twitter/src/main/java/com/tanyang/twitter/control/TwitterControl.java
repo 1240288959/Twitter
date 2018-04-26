@@ -3,10 +3,7 @@ package com.tanyang.twitter.control;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.*;
-import com.tanyang.twitter.service.impl.AttentionServiceImpl;
-import com.tanyang.twitter.service.impl.MessageServiceImpl;
-import com.tanyang.twitter.service.impl.PraiseServiceImpl;
-import com.tanyang.twitter.service.impl.TwitterServiceImpl;
+import com.tanyang.twitter.service.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +33,8 @@ public class TwitterControl {
     private MessageServiceImpl messageServiceImpl;
     @Autowired
     private AttentionServiceImpl attentionServiceImpl;
+    @Autowired
+    private TimageServiceImpl timageServiceImpl;
 
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
@@ -46,7 +48,7 @@ public class TwitterControl {
         ObjectMapper mapper=new ObjectMapper();
         User user=(User)session.getAttribute("user");
         Date time= (Date) session.getAttribute("toMainTime");
-        logger.info("id :"+user.getId());
+        /*logger.info("id :"+user.getId());*/
         List<Twitter> list= twitterServiceImpl.getTwitterPageByAttention(user.getId(),time,page);
         List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
         for(Twitter twitter:list){
@@ -54,10 +56,13 @@ public class TwitterControl {
             PraiseTwitter praiseTwitter=new PraiseTwitter();
             praiseTwitter.setPraise(praise);
             praiseTwitter.setTwitter(twitter);
+            List<Timage> timageList=timageServiceImpl.getTimageByTwitter(twitter);
+            praiseTwitter.setTimageList(timageList);
             praiseTwitterList.add(praiseTwitter);
+
         }
-        logger.info("list:"+list);
-        System.out.println(praiseTwitterList);
+        /*logger.info("list:"+list);*/
+        /*System.out.println(praiseTwitterList);*/
         String jsonStr;
         try {
             jsonStr=mapper.writeValueAsString(praiseTwitterList);
@@ -102,8 +107,9 @@ public class TwitterControl {
 
     @RequestMapping("/deliverytwitter")
     @ResponseBody
-    public boolean deliverytwitter(@RequestParam("title") String title,@RequestParam("content") String content, HttpSession session){
+    public boolean deliverytwitter(@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("imageArray[]") List<String> imageList,HttpSession session){
         logger.info("title:"+title+" content:"+content);
+        logger.info("imageArray的长度为"+imageList.size());
         Twitter twitter=new Twitter();
         User user=(User)session.getAttribute("user");
         twitter.setUser(user);
@@ -111,6 +117,15 @@ public class TwitterControl {
         twitter.setContent(content);
         boolean flag=twitterServiceImpl.deliveryTwitter(twitter);
         if(flag==true){
+            //添加图片
+            for(String base64Img : imageList){
+                Timage timage=new Timage();
+                timage.setImage(base64Img.replace("&comma;",","));
+                logger.info(base64Img.length()+"  "+base64Img.replace("&comma;",",").substring(0,50));
+                timage.setTwitter(twitter);
+                timageServiceImpl.addTwitterImage(timage);
+            }
+            //添加消息
             List<User> attentUsers=attentionServiceImpl.getAttent(user.getId());
             for(User attentuser:attentUsers){
                 Message message=new Message();
@@ -126,4 +141,34 @@ public class TwitterControl {
         return flag;
     }
 
+    @RequestMapping("/convertBase64")
+    @ResponseBody
+    public String convertBase64Encoder(@RequestParam("image") MultipartFile image){
+
+//        logger.info("已访问到control层");
+        String img_name=null;
+
+        if(image==null){
+            logger.info("文件为空");
+            return null;
+        }
+        String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        img_name=image.getOriginalFilename().substring(0,image.getOriginalFilename().lastIndexOf('.'));
+       logger.info("convertBase64Encoder 方法 上传的文件名为："+img_name+suffix);
+        if(!".jpg".equalsIgnoreCase(suffix)&&!".png".equalsIgnoreCase(suffix)){
+            return null;
+        }
+
+        BASE64Encoder encoder=new BASE64Encoder();
+        StringBuffer base64Str= new StringBuffer("data:image/"+suffix+";base64,");
+        try {
+            base64Str =base64Str.append(encoder.encode(image.getBytes())) ;
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("图片转换为base64编码失败");
+            return null;
+        }
+
+        return base64Str.toString();
+    }
 }

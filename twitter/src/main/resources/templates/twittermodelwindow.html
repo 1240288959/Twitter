@@ -9,7 +9,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel" ></h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                     <div>
                         <span class="text-right" id="modal-id" hidden="true"></span>
                         <p class="text-right">
@@ -18,18 +18,22 @@
                             <span class="text-right" id="modal-date"></span>
                         </p>
                     </div>
-                    <div id="modal-content" style="width: 100%;word-break:break-all;">
+                    <div id="modal-content" style="width: 100%;word-break:break-all;padding-bottom: 5px">
                         <p></p>
+                        <div class="row">
+                            <div id="twMoShowPic" class="col-md-10 col-md-offset-1" style="padding: 0;">
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12">
-                        <span  class="glyphicon glyphicon-heart-empty " id="praise" hidden="true" onclick="praise_click()" aria-hidden="true" title="点赞"></span>
-                        <span  class="glyphicon glyphicon-heart " id="unpraise" hidden="true" onclick="unpraise_click()" aria-hidden="true" title="取消点赞"></span>
-                        <span class="glyphicon glyphicon-comment " id="commenticon"  onclick="commentToggle()" title="点击弹出/关闭输入栏"></span>
-                    </div>
-                    <div class="col-sm-12">
-                        <form id="commentTFrom"  class="col-sm-12">
+                        <span  class="glyphicon glyphicon-heart-empty text-right" id="praise" hidden="true" onclick="praise_click()" aria-hidden="true" title="点赞"></span>
+                        <span  class="glyphicon glyphicon-heart text-right" id="unpraise" hidden="true" onclick="unpraise_click()" aria-hidden="true" title="取消点赞"></span>
+                        <span class="glyphicon glyphicon-comment text-right" id="commenticon"  onclick="commentToggle()" title="点击弹出/关闭输入栏"></span>
+                        <form id="commentTFrom" >
                             <textarea style="resize: none;margin-bottom: 5px" class="form-control" cols="20" rows="1"  name="comment" id="comment" placeholder="请输入评论"/>
                             <span id="addcomment"  type="submit" class="btn btn-primary" onclick="addcomment()">回复</span>
                         </form>

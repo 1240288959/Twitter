@@ -12,17 +12,11 @@ import java.io.*;
 
 public class ImageUtil {
 
-    private  String fileUpPath;
-
-    public ImageUtil() {
-        fileUpPath=PropertyUtil.getProperty("fileUpPath");
-    }
-
-    public  String getImageBase64Coder(String imgname){
+    public  String getImageBase64Coder(String filePath,String imgname){
         //System.out.println(fileUpPath);
         try {
             StringBuffer result=new StringBuffer("data:image/jpg;base64,");
-            File file=new File(fileUpPath+imgname);
+            File file=new File(filePath+imgname);
             FileInputStream fileInputStream=new FileInputStream(file);
             BufferedInputStream bufferedInputStream=new BufferedInputStream(fileInputStream);
             ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream((int)file.length());

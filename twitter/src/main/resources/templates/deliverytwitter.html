@@ -4,17 +4,31 @@
     <meta charset="UTF-8"/>
     <title>deliverytwitter</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <style type="text/css">
+        button{
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 <div th:include="nav :: nav"></div>
 <h4 class="text-center">发推</h4>
 <form  class="col-sm-8 col-sm-offset-2" action="/tomain" id="myform" method="post" onsubmit="return deliverytwitter()">
-    <input class="form-control" type="text" name="title" id="title" placeholder="请输入标题"/>
-    <textarea style="resize: none" class="form-control" cols="20" rows="10"  name="content" id="content" placeholder="请输入文本"/>
-    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+    <input class="form-control" type="text" name="title" id="title" placeholder="请输入标题" style="margin-bottom: 10px;" required="required"/>
+    <textarea style="resize: none;margin-bottom: 10px;" class="form-control" cols="20" rows="10"  name="content" id="content" placeholder="请输入文本" required="required"/>
+    <span class="glyphicon glyphicon-picture" style="float: left;font-size: x-large;cursor: pointer;" title="上传本地图片" onclick="showPictureList()" ></span>
+    <button type="submit"  class="btn btn-primary" style="float: right">提交</button>
 </form>
+<div id="picture_list" class="col-sm-8 col-sm-offset-2" style="margin-top: 50px;display: none">
+
+    <input id="fileupload" onchange="convertBase64()" type="file" name="image" style="display:none;" accept="image/*"/>
+
+    <button type="button" id="addPicture" style="margin-bottom:10px;display: inline-block;width:200px;height: 200px;background: none;border-radius: 10px;border-style: solid;border-width: 1px;margin-right: 20px" onclick="addPicture()"><span class="glyphicon glyphicon-plus"></span></button>
+
+</div>
 </body>
 <script th:src="@{js/common/jquery.min.js}"></script>
 <script th:src="@{js/common/bootstrap.js}"></script>
+<script th:src="@{js/common/ajaxfileupload .js}"></script>
 <script th:src="@{js/deliverytwitter.js}"></script>
 </html>

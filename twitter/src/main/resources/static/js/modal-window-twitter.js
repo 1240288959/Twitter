@@ -1,4 +1,4 @@
-function showmodal(id,title,username,date,content) {
+function showmodal(id,title,username,date,content,modalDom) {
     console.log(id);
 
     $("#myModal h4").html(title);
@@ -8,6 +8,10 @@ function showmodal(id,title,username,date,content) {
     $("#modal-content p").html(content);
     $("#praise").hide();
     $("#unpraise").hide();
+    var modalPicDom=document.createElement("div");
+    $(modalPicDom).html($(modalDom).children().last().html());
+    $(modalPicDom).children("img").attr("onclick","showPictureModal(this)");
+    $("#twMoShowPic").html( $(modalPicDom).html());
 
     $.ajax({
         url:"/isPraise",

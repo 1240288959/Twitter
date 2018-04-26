@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanyang.twitter.pojo.*;
 import com.tanyang.twitter.service.impl.*;
-import com.tanyang.twitter.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +48,8 @@ public class UserControl {
     @RequestMapping("/login")
     @ResponseBody
     public boolean login(String email, String password, HttpSession session){
-        logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
-        System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);
+      /*  logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
+        System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);*/
         return userServiceImpl.login(email,password,session);
     }
 
@@ -61,7 +61,7 @@ public class UserControl {
     @RequestMapping("/register")
     @ResponseBody
     public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday){
-        logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);
+        /*logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);*/
         boolean flag= userServiceImpl.register(name,password,realname,gender,email,mobile,birthday);
         if(flag==true){
             emailServiceImpl.sendSimpleMail(email);
@@ -73,7 +73,7 @@ public class UserControl {
 
     @RequestMapping("/vertify")
     public String vertify(String email){
-        logger.info(email);
+       /* logger.info(email);*/
         userServiceImpl.vertify(email);
         return "vertify";
     }
@@ -96,7 +96,7 @@ public class UserControl {
             return false;
         }
 
-        File file=new File(file_path+img_name+suffix);
+/*        File file=new File(file_path+img_name+suffix);
         if(!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
         }
@@ -109,10 +109,20 @@ public class UserControl {
         }catch (Exception e){
             e.printStackTrace();
             return false;
+        }*/
+
+        BASE64Encoder encoder=new BASE64Encoder();
+        StringBuffer base64Str= new StringBuffer("data:image/"+suffix+";base64,");
+        try {
+            base64Str =base64Str.append(encoder.encode(image.getBytes())) ;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
+
         User user=(User)session.getAttribute("user");
-        userServiceImpl.setImage(new ImageUtil().getImageBase64Coder(new String(img_name+suffix)),user.getId());
-        user.setImage(new ImageUtil().getImageBase64Coder(new String(img_name+suffix)));
+        userServiceImpl.setImage(base64Str.toString(),user.getId());
+        user.setImage(base64Str.toString());
         session.setAttribute("user",user);
         return true;
     }
@@ -167,13 +177,13 @@ public class UserControl {
 
     @RequestMapping("/tootherspage")
     public String otherspage(String id,Model model,HttpSession session){
-        logger.info("id:"+id);
-        System.out.println(id);
+        /*logger.info("id:"+id);
+        System.out.println(id);*/
         session.setAttribute("toOthersPageTime",new java.util.Date(System.currentTimeMillis()));
         AttentedUser attentedUser=new AttentedUser();
         User user=(User)session.getAttribute("user");
         User otheruser= userServiceImpl.findUser(id);
-        logger.info("user:"+otheruser);
+        /*logger.info("user:"+otheruser);*/
         boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
         attentedUser.setUser(otheruser);
         attentedUser.setAttented(attented);
@@ -196,12 +206,12 @@ public class UserControl {
     public String getOthersTwitter(String id,int page,HttpSession session){
         ObjectMapper mapper=new ObjectMapper();
         java.util.Date time= (java.util.Date) session.getAttribute("toOthersPageTime");
-        logger.info("id:"+id);
-        System.out.println(id);
+      /*  logger.info("id:"+id);
+        System.out.println(id);*/
         AttentedUser attentedUser=new AttentedUser();
         User user=(User)session.getAttribute("user");
         User otheruser= userServiceImpl.findUser(id);
-        logger.info("user:"+otheruser);
+       /* logger.info("user:"+otheruser);*/
         boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
         attentedUser.setUser(otheruser);
         attentedUser.setAttented(attented);

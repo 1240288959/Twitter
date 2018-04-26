@@ -71,7 +71,7 @@ public class CommentControl {
     @RequestMapping("/getComment")
     @ResponseBody
     public List<Comment> getCommentByTwitterId(String twitterid, Model model){
-        logger.info("Twitterid:"+twitterid);
+        /*logger.info("Twitterid:"+twitterid);*/
         List<Comment> list=null;
         Twitter twitter= twitterServiceImpl.getTwitterById(twitterid);
         list= commentServiceImpl.getCommentByTwitterId(twitter);

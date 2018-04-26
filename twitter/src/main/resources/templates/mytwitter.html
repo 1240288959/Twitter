@@ -12,7 +12,7 @@
         <div  onclick="upload_click()" title="点击更改头像">
             <img class="img-circle"  th:src="@{${session.user.image}}" alt="此处应该有my头像"  style="width: 210px;height: 200px" />
         </div>
-        <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;"/>
+        <input id="fileupload" onchange="fileupload_change()" type="file" name="image" style="display:none;" accept="image/*"/>
         <p class="text-center" th:text="${session.user.name}"></p>
         <ul class="nav nav-pills nav-stacked">
             <li class="active">

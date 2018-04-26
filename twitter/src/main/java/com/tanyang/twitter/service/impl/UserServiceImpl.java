@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService {
         try{
             user =userDao.getUserByEmailAndPassword(email,password);
             session.setAttribute("user",user);
-            logger.info("UserId为"+user.getId());
-            logger.info("UserService层:login方法:中间产物:User:"+user);
+           /* logger.info("UserId为"+user.getId());
+            logger.info("UserService层:login方法:中间产物:User:"+user);*/
         }catch (Exception e){
             e.printStackTrace();
-            logger.info("UserService层:login方法没有获取到对象");
+            /*logger.info("UserService层:login方法没有获取到对象");*/
         }
-        if(user==null){
+        if(user==null||user.getStatus()==0){
             return false;
         }
         return true;

@@ -60,9 +60,9 @@ public class PraiseControl {
     @ResponseBody
     public boolean isPraise(String twitterId,HttpSession session){
         User user= (User) session.getAttribute("user");
-        System.out.println(user.getId()+"          "+twitterId);
+        /*System.out.println(user.getId()+"          "+twitterId);*/
         Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitterId);
-        System.out.println("praise:"+praise);
+        /*System.out.println("praise:"+praise);*/
         if(praise!=null){
             return true;
         }else{

@@ -1,6 +1,5 @@
 package com.tanyang.twitter.pojo;
 
-import com.tanyang.twitter.utils.ImageUtil;
 import com.tanyang.twitter.utils.UuidUtil;
 
 import javax.persistence.Entity;
