@@ -10,7 +10,7 @@
 <div class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
         <img class="img-circle" th:src="@{${attenteduser.user.image}}" alt="此处应该有my头像" style="width: 210px;height: 200px" />
-        <div th:if="${session.user.id != attenteduser.user.id }">
+        <div th:if="${session.user.id != attenteduser.user.id }" style="margin-top:5px;margin-bottom: 5px">
             <button class="btn btn-primary center-block" th:if="${attenteduser.attented }"  th:onclick="'deleteattented(\''+${attenteduser.user.id}+'\',this)'" >关注中</button>
             <button class="btn btn-primary center-block" th:unless="${attenteduser.attented }"  th:onclick="'addattented(\''+${attenteduser.user.id}+'\',this)'" >关注</button>
         </div>
@@ -49,14 +49,15 @@
             </li>
         </ul>
     </nav>
-    <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 </div>
-
+<div th:include="twittermodelwindow :: twittermodelwindow"></div>
+<div th:include="pictureshowmodal :: pictureshowmodal"></div>
 </body>
 <script th:src="@{js/common/jquery.min.js}"></script>
 <script th:src="@{js/common/bootstrap.js}"></script>
 <script th:src="@{js/modal-window-twitter.js}"></script>
 <script th:src="@{js/otherspage.js}"></script>
+<script th:src="@{js/picture-show-modal.js}"></script>
 <script>
     var page=1;
 </script>

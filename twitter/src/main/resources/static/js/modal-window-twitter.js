@@ -1,25 +1,44 @@
-function showmodal(id,title,username,date,content,modalDom) {
-    console.log(id);
+function showmodal(id) {
 
-    $("#myModal h4").html(title);
-    $("#modal-id").html(id);
-    $("#modal-username").html(username);
-    $("#modal-date").html(date);
-    $("#modal-content p").html(content);
     $("#praise").hide();
     $("#unpraise").hide();
-    var modalPicDom=document.createElement("div");
-    $(modalPicDom).html($(modalDom).children().last().html());
-    $(modalPicDom).children("img").attr("onclick","showPictureModal(this)");
-    $("#twMoShowPic").html( $(modalPicDom).html());
+
 
     $.ajax({
-        url:"/isPraise",
+        url:"/getPariseTwitterById",
         type:"get",
-        data:"twitterId="+ $("#modal-id").html(),
-        success:function (msg) {
-            /*console.log("*******"+msg);*/
-            if(msg==true){
+        data:{
+            "id":id
+        },
+        dataType:"json",
+        success:function (data) {
+            console.log(data);
+            $("#myModal h4").html(data.twitter.title);
+            $("#modal-id").html(data.twitter.id);
+            $("#modal-username").html(data.twitter.user.name);
+            $("#modal-date").html(data.twitter.date);
+            $("#modal-content p").html(data.twitter.content);
+            $("#twMoShowPic").children().remove();
+            if(parseInt(data.timageList.length)>0){
+                for(var k=0;k<data.timageList.length;k++){
+                    var timageDom=document.createElement("img");
+                    $(timageDom).attr("style","width:100%;border-radius:10px;margin-top:15px;cursor:pointer;");
+                    if(k>0){
+                        $(timageDom).attr("hidden","hidden");
+                    }
+                    $(timageDom).attr("src",""+data.timageList[k].image);
+                    $(timageDom).attr("onclick","showPictureModal(this)");
+                    $("#twMoShowPic").append(timageDom);
+                }
+
+                if(parseInt(data.timageList.length)>1){
+                    var floatArea=document.createElement("button");
+                    $(floatArea).attr("style","display:inline-block;background-color:rgba(0,0,0,0.6);position:absolute;border-width:0px;width:50px;height:50px;right:0;top:0;transform:translateY(15px);border-top-right-radius:10px;color:white");
+                    $(floatArea).html("<span class='glyphicon glyphicon-file'></span>&nbsp;"+data.timageList.length);
+                    $("#twMoShowPic").append(floatArea);
+                }
+            }
+            if(data.praise){
                 $("#unpraise").show();
             }else{
                 $("#praise").show();

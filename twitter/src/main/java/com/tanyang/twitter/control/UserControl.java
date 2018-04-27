@@ -201,39 +201,6 @@ public class UserControl {
         return "otherspage";
     }
 
-    @RequestMapping("/getOthersTwitter")
-    @ResponseBody
-    public String getOthersTwitter(String id,int page,HttpSession session){
-        ObjectMapper mapper=new ObjectMapper();
-        java.util.Date time= (java.util.Date) session.getAttribute("toOthersPageTime");
-      /*  logger.info("id:"+id);
-        System.out.println(id);*/
-        AttentedUser attentedUser=new AttentedUser();
-        User user=(User)session.getAttribute("user");
-        User otheruser= userServiceImpl.findUser(id);
-       /* logger.info("user:"+otheruser);*/
-        boolean attented=attentionServiceimpl.getAttention(user.getId(),id);
-        attentedUser.setUser(otheruser);
-        attentedUser.setAttented(attented);
-
-        List<Twitter> list= twitterServiceImpl.getTwitterPageByUserId(id,time,page);
-        List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
-        for(Twitter twitter:list){
-            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
-            PraiseTwitter praiseTwitter=new PraiseTwitter();
-            praiseTwitter.setPraise(praise);
-            praiseTwitter.setTwitter(twitter);
-            praiseTwitterList.add(praiseTwitter);
-        }
-        String jsonStr="";
-        try {
-            jsonStr=mapper.writeValueAsString(praiseTwitterList);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return jsonStr;
-    }
-
 
     @RequestMapping("/logout")
     public String logout(HttpSession session){

@@ -35,6 +35,8 @@ public class TwitterControl {
     private AttentionServiceImpl attentionServiceImpl;
     @Autowired
     private TimageServiceImpl timageServiceImpl;
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     @RequestMapping("/tomain")
     public String getAttentionTwitter(Model model, HttpSession session){
@@ -90,9 +92,19 @@ public class TwitterControl {
         User user=(User)session.getAttribute("user");
         Date time= (Date) session.getAttribute("toMyTwitterTime");
         List<Twitter> list= twitterServiceImpl.getTwitterPageByUserId(user.getId(),time,page);
+        List<PraiseTwitter> praiseTwitterList=new ArrayList<>();
+        for(Twitter twitter:list){
+            PraiseTwitter praiseTwitter=new PraiseTwitter();
+            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+            List<Timage> timageList=timageServiceImpl.getTimageByTwitter(twitter);
+            praiseTwitter.setTwitter(twitter);
+            praiseTwitter.setPraise(praise);
+            praiseTwitter.setTimageList(timageList);
+            praiseTwitterList.add(praiseTwitter);
+        }
         String jsonStr;
         try {
-            jsonStr=mapper.writeValueAsString(list);
+            jsonStr=mapper.writeValueAsString(praiseTwitterList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             jsonStr="";
@@ -121,7 +133,7 @@ public class TwitterControl {
             for(String base64Img : imageList){
                 Timage timage=new Timage();
                 timage.setImage(base64Img.replace("&comma;",","));
-                logger.info(base64Img.length()+"  "+base64Img.replace("&comma;",",").substring(0,50));
+                /*logger.info(base64Img.length()+"  "+base64Img.replace("&comma;",",").substring(0,50));*/
                 timage.setTwitter(twitter);
                 timageServiceImpl.addTwitterImage(timage);
             }
@@ -170,5 +182,60 @@ public class TwitterControl {
         }
 
         return base64Str.toString();
+    }
+
+    @RequestMapping("/getPariseTwitterById")
+    @ResponseBody
+    public String getPariseTwitterById(String id,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        PraiseTwitter praiseTwitter=new PraiseTwitter();
+        User user=(User)session.getAttribute("user");
+        Twitter twitter=twitterServiceImpl.getTwitterById(id);
+        Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+        List<Timage> timageList=timageServiceImpl.getTimageByTwitter(twitter);
+        praiseTwitter.setTwitter(twitter);
+        praiseTwitter.setPraise(praise);
+        praiseTwitter.setTimageList(timageList);
+        String jsonStr=null;
+        try {
+            jsonStr=mapper.writeValueAsString(praiseTwitter);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
+    }
+
+    @RequestMapping("/getOthersTwitter")
+    @ResponseBody
+    public String getOthersTwitter(String id,int page,HttpSession session){
+        ObjectMapper mapper=new ObjectMapper();
+        Date time= (Date) session.getAttribute("toOthersPageTime");
+      /*  logger.info("id:"+id);
+        System.out.println(id);*/
+        AttentedUser attentedUser=new AttentedUser();
+        User user=(User)session.getAttribute("user");
+        User otheruser= userServiceImpl.findUser(id);
+        /* logger.info("user:"+otheruser);*/
+        boolean attented=attentionServiceImpl.getAttention(user.getId(),id);
+        attentedUser.setUser(otheruser);
+        attentedUser.setAttented(attented);
+
+        List<Twitter> list= twitterServiceImpl.getTwitterPageByUserId(id,time,page);
+        List<PraiseTwitter> praiseTwitterList=new ArrayList<PraiseTwitter>();
+        for(Twitter twitter:list){
+            Praise praise=praiseServiceImpl.getPraiseByUserAndTwitter(user.getId(),twitter.getId());
+            PraiseTwitter praiseTwitter=new PraiseTwitter();
+            praiseTwitter.setPraise(praise);
+            praiseTwitter.setTwitter(twitter);
+            praiseTwitter.setTimageList(timageServiceImpl.getTimageByTwitter(twitter));
+            praiseTwitterList.add(praiseTwitter);
+        }
+        String jsonStr="";
+        try {
+            jsonStr=mapper.writeValueAsString(praiseTwitterList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
     }
 }

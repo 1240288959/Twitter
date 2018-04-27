@@ -9,7 +9,6 @@ function showMoreTwitter(page){
         data:"page="+page,
         dataType:"json",
         success:function(msg){
-            console.log(msg);
             if(msg==null||msg.length==0){
                 alert("没有更多推文了");
             }
@@ -37,7 +36,12 @@ function showMoreTwitter(page){
                 divDom=document.createElement("div");
                 $(divDom).attr("class","media-body");
                 $(divDom).attr("style","padding-left:10px");
-                $(divDom).attr("onclick","showmodal('"+msg[i].twitter.id+"','"+msg[i].twitter.title+"','"+msg[i].twitter.user.name+"','"+msg[i].twitter.date+"','"+msg[i].twitter.content+"',this)");
+                var timgList=new Array();
+                for(var k=0;k<msg[i].timageList.length;k++){
+                    timgList.push(msg[i].timageList[k].image);
+                }
+                console.log("长度为"+timgList.length);
+                $(divDom).attr("onclick","showmodal('"+msg[i].twitter.id+"')");
                 var h4Dom=document.createElement("h4");
                 $(h4Dom).attr("style","margin-left:5px");
                 $(h4Dom).attr("class","media-heading");

@@ -29,10 +29,10 @@ public class MessageControl {
     public String toMyMessage(Model model, HttpSession session){
         User currentUser= (User) session.getAttribute("user");
         session.setAttribute("toMyMessageTime",new Date(System.currentTimeMillis()));
-        List<Message> messageList=messageServiceImpl.getMessageByReceiver(currentUser);
-        model.addAttribute("messageList",messageList);
+        /*List<Message> messageList=messageServiceImpl.getMessageByReceiver(currentUser);
+        model.addAttribute("messageList",messageList);*/
         /*logger.info(""+messageList);*/
-        messageServiceImpl.doMessageReaded(messageList);
+
         return "mymessage";
     };
 
@@ -42,7 +42,9 @@ public class MessageControl {
         ObjectMapper mapper=new ObjectMapper();
         User currentUser= (User) session.getAttribute("user");
         Date time= (Date) session.getAttribute("toMyMessageTime");
+        /*logger.info(time.toString());*/
         List<Message> messageList=messageServiceImpl.getMessagePageByReceiver(currentUser,time,page);
+        messageServiceImpl.doMessageReaded(messageList);
         /*logger.info(""+messageList);*/
         messageServiceImpl.doMessageReaded(messageList);
         String jsonStr="";

@@ -9,17 +9,17 @@ function showPictureModal(picArea){
 
 function prevPicture(){
     var prevPic=$(nowPic).prev("img").last();
-    if(prevPic.attr("src")==null||prevPic.attr("src")==""){
-        prevPic=$(nowPic).parent().children().last("img");
+    if(!prevPic.attr("src")){
+       return;
     }
-    console.log($(nowPic).attr("src"));
+    nowPic=prevPic;
     $("#imgShow").attr("src",""+$(nowPic).attr("src"));
 }
 
 function nextPicture(){
     var nextPic=$(nowPic).next("img").first();
-    if(nextPic.attr("src")==null||nextPic.attr("src")==""){
-        nextPic=$(nowPic).parent().children().first("img");
+    if(!nextPic.attr("src")){
+        return;
     }
     nowPic=nextPic;
     $("#imgShow").attr("src",$(nowPic).attr("src"));

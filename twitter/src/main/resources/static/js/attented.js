@@ -31,6 +31,7 @@ function showMoreAttented(page){
             var mainDom=$("#attentedList");
             for(var i=0;i<msg.length;i++){
                 var divDom=document.createElement("div");
+                $(divDom).css("margin-bottom","10px");
                 var aDom=document.createElement("a");
                 var imgDom=document.createElement("img");
                 $(aDom).attr("href","/tootherspage?id="+msg[i].id);
