@@ -8,32 +8,34 @@
 <body>
 <div th:include="nav :: nav"></div>
 <div class="login-box"  style="width: 50%;margin: 0 auto;">
-    <form  id="myform" method="get">
+    <form  id="myform" method="post" class="form-horizontal" action="/tomain" onsubmit="return login()">
         <div class="form-group" >
             <label class="col-sm-2 control-label" for="email">邮箱:</label>
-            <div class="col-sm-10" style="margin-bottom: 20px;position: relative;">
-                <input class="form-control" type="text" id="email" name="email" placeholder="请输入邮箱" style="text-indent: 40px"/>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="email" name="email" placeholder="请输入邮箱" style="text-indent: 40px" required="required"/>
                 <span class="glyphicon glyphicon-envelope" style="position: absolute;left: 0;top: 50%;transform: translateX(200%) translateY(-50%)"></span>
             </div>
         </div>
 
         <div class="form-group" >
             <label class="col-sm-2 control-label" for="password">密码:</label>
-            <div class="col-sm-10" style="margin-bottom: 20px">
-                <input class="form-control" type="password" id="password"  name="password" placeholder="请输入密码" style="text-indent: 40px"/>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" id="password"  name="password" placeholder="请输入密码" style="text-indent: 40px" required="required"/>
                 <span class="glyphicon glyphicon-lock" style="position: absolute;left: 0;top: 50%;transform: translateX(200%) translateY(-50%)"></span>
             </div>
         </div>
 
-        <div class="col-sm-offset-2 col-sm-10">
-            <span id="submit" onclick="login()" class="btn btn-primary" style="width: 100%">提交</span>
-            <div id="alert_fail" class="alert alert-danger alert-dismissible"  style="margin-top: 20px" hidden="true">
-                <button id="close_alert_fail" type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Error！</strong> 无法登陆账户，原因可能是1.账号或密码错误，2.或者账号尚未激活。.
-            </div>
-            <div id="alert_success" class="alert alert-success alert-dismissible"  style="margin-top: 20px" hidden="true">
-                <button id="close_alert_success" type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Success！</strong> 登录成功,正在跳转...
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit"  class="btn btn-primary" style="width: 100%">提交</button>
+                <div id="alert_fail" class="alert alert-danger alert-dismissible"  style="margin-top: 20px" hidden="true">
+                    <button id="close_alert_fail" type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Error！</strong> 无法登陆账户，原因可能是1.账号或密码错误，2.或者账号尚未激活。.
+                </div>
+                <div id="alert_success" class="alert alert-success alert-dismissible"  style="margin-top: 20px" hidden="true">
+                    <button id="close_alert_success" type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success！</strong> 登录成功,正在跳转...
+                </div>
             </div>
         </div>
     </form>

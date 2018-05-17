@@ -37,9 +37,6 @@ public class UserControl {
     @Autowired
     private PraiseServiceImpl praiseServiceImpl;
 
-    @Value("${fileUpPath}")
-    private String fileUpPath;
-
     @RequestMapping("/tologin")
     public String tologin(){
         return "login";
@@ -82,9 +79,6 @@ public class UserControl {
     @ResponseBody
     public boolean setImage(@RequestParam("image") MultipartFile image,HttpSession session){
         String img_name=null;
-
-        String file_path=new String(fileUpPath);
-        logger.info("文件路径为： "+file_path);
         if(image==null){
             logger.info("文件为空");
             return false;

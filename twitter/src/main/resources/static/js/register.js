@@ -21,7 +21,7 @@ function register() {
                 flag=true;
             }
             else{
-                window.alert("注册失败，原因可能为名称重复");
+                window.alert("注册失败，原因可能为名称重复，或者是手机邮箱已被注册");
                 flag=false;
             }
         }

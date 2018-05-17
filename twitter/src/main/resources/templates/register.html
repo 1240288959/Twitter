@@ -7,53 +7,55 @@
 </head>
 <body>
 <div th:include="nav :: nav"></div>
-<form id="myform" action="/tologin" onsubmit="return register()" method="post">
-    <div class="register-box" style="width: 50%;margin: 0 auto;">
+<form id="myform" action="/tologin" onsubmit="return register()" method="post" class="form-horizontal">
+    <div class="register-box" style="width: 50%;margin: 0 auto;" >
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="name">name</label>
+            <label class="col-sm-2 control-label" for="name">用户名</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" name="name" id="name" placeholder="请输入用户名" required="required"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="password">password</label>
+            <label class="col-sm-2 control-label" for="password">密码</label>
             <div class="col-sm-10">
                 <input class="form-control" type="password" name="password" id="password" placeholder="请输入密码" required="required"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="realname">realname</label>
+            <label class="col-sm-2 control-label" for="realname">真实姓名</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" name="realname" id="realname" placeholder="请输入真实姓名" required="required"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" >gender</label>
+            <label class="col-sm-2 control-label" >性别</label>
             <div class="col-sm-10">
                 <input  type="radio" name="gender" id="male" checked="checked" value="1"/><label  for="male">男</label>
                 <input  type="radio" name="gender" id="female" value="0"/><label  for="female">女</label>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="email">email</label>
+            <label class="col-sm-2 control-label" for="email">邮箱</label>
             <div class="col-sm-10">
                 <input class="form-control" type="email" name="email" id="email" placeholder="请输入邮箱" required="required"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="mobile">mobile</label>
+            <label class="col-sm-2 control-label" for="mobile">手机</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" name="mobile" id="mobile" placeholder="请输入手机号"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="birthday">birthday</label>
+            <label class="col-sm-2 control-label" for="birthday">生日</label>
             <div class="col-sm-10">
                 <input class="form-control" type="date" name="birthday" id="birthday"  placeholder="--年--月--日"/>
             </div>
         </div>
-        <div class="col-sm-offset-2 col-sm-10 ">
-            <button  class="btn btn-primary"  id="submit" >提交</button>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 ">
+                <button  class="btn btn-primary"  id="submit" >提交</button>
+            </div>
         </div>
     </div>
 </form>

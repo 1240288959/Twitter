@@ -26,7 +26,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**","/").excludePathPatterns("/tologin","/login","/static/**","/static/**/**","/toregister","/register");
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**","/").excludePathPatterns("/tologin","/login","/static/**","/static/**/**","/toregister","/register","/vertify");
         super.addInterceptors(registry);
     }
 }
