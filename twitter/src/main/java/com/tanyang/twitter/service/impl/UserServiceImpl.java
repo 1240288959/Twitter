@@ -60,6 +60,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday,String img) {
+        User user=new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setRealname(realname);
+        user.setGender(gender);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setImage(img);
+        user.setBirthday(birthday);
+        try{
+            user=userDao.save(user);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean updateUserInform(User user){
         try{
             userDao.save(user);

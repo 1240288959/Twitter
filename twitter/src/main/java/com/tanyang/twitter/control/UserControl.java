@@ -36,6 +36,8 @@ public class UserControl {
     private TwitterServiceImpl twitterServiceImpl;
     @Autowired
     private PraiseServiceImpl praiseServiceImpl;
+    @Value("${defaultImg}")
+    private String defaultImg;
 
     @RequestMapping("/tologin")
     public String tologin(){
@@ -59,7 +61,7 @@ public class UserControl {
     @ResponseBody
     public boolean register(String name, String password,String realname,String gender, String email, String mobile, Date birthday){
         /*logger.info(name+" "+password+" "+realname+" "+gender+" "+email+" "+mobile+" "+birthday);*/
-        boolean flag= userServiceImpl.register(name,password,realname,gender,email,mobile,birthday);
+        boolean flag= userServiceImpl.register(name,password,realname,gender,email,mobile,birthday,defaultImg);
         if(flag==true){
             emailServiceImpl.sendSimpleMail(email);
             return true;
