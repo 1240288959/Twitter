@@ -1,6 +1,7 @@
 function countTime() {
-    var count=4;
-    $("#a").text("还有5s自动跳转");
+    var count=5;
+    $("#a").text("还有"+count+"s自动跳转");
+    count=count-1;
     setInterval(function () {
         $("#a").text("还有"+count+"s自动跳转");
         console.log(count);

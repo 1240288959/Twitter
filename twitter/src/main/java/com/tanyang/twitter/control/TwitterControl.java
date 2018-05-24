@@ -131,9 +131,12 @@ public class TwitterControl {
         if(flag==true){
             //添加图片
             for(String base64Img : imageList){
+                if("null".equals(base64Img)){
+                    continue;
+                }
                 Timage timage=new Timage();
                 timage.setImage(base64Img.replace("&comma;",","));
-                /*logger.info(base64Img.length()+"  "+base64Img.replace("&comma;",",").substring(0,50));*/
+                //*logger.info(base64Img.length()+"  "+base64Img.replace("&comma;",",").substring(0,50));*//*
                 timage.setTwitter(twitter);
                 timageServiceImpl.addTwitterImage(timage);
             }

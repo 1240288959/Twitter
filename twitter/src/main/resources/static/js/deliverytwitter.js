@@ -9,16 +9,22 @@ function deliverytwitter () {
 
     console.log("进入到方法  ");
 
+    var jsondata={};
+    jsondata.title=$("#title").val();
+    jsondata.content=$("#content").val();
+
+    if(imageArray.length>0){
+        jsondata.imageArray=imageArray;
+    }else{
+        jsondata.imageArray=["null"];
+    }
+
     $.ajax({
         url:"/deliverytwitter",
         type:"post",
         async:false,
         cache:false,
-        data:{
-            'title':$("#title").val(),
-            'content':$("#content").val(),
-            'imageArray':imageArray
-        },
+        data:jsondata,
         success:function(msg){
             flag=msg;
             /*console.log("成功的进行了ajax异步");*/
@@ -28,6 +34,7 @@ function deliverytwitter () {
             return flag;
         }
     });
+
     return flag;
 }
 
