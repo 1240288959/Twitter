@@ -41,14 +41,15 @@ public class UserControl {
 
     @RequestMapping("/tologin")
     public String tologin(){
+        logger.debug("用户发送请求，申请进入登录页");
         return "login";
     }
 
     @RequestMapping("/login")
     @ResponseBody
     public boolean login(String email, String password, HttpSession session){
-      /*  logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
-        System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);*/
+        logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
+        /*System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);*/
         return userServiceImpl.login(email,password,session);
     }
 
