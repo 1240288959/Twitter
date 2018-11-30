@@ -169,7 +169,7 @@ public class TwitterControl {
         }
         String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
         img_name=image.getOriginalFilename().substring(0,image.getOriginalFilename().lastIndexOf('.'));
-       logger.info("convertBase64Encoder 方法 上传的文件名为："+img_name+suffix);
+        logger.info("convertBase64Encoder 方法 上传的文件名为："+img_name+suffix);
         if(!".jpg".equalsIgnoreCase(suffix)&&!".png".equalsIgnoreCase(suffix)){
             return null;
         }
