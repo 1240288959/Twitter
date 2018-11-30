@@ -51,7 +51,6 @@ public class MyAspect {
 
     /**
      * 获取返回内容
-     * @param object
      */
     @AfterReturning(returning = "object",pointcut = "log()")
     public void doAfterReturn(Object object){
