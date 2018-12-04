@@ -48,7 +48,7 @@ public class UserControl {
     @RequestMapping("/login")
     @ResponseBody
     public boolean login(String email, String password, HttpSession session){
-        logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
+        //logger.debug("UserControl层:login方法:传入参数:email"+email+" password:"+password);
         /*System.out.println("UserControl层:login方法:传入参数:email"+email+" password:"+password);*/
         return userServiceImpl.login(email,password,session);
     }

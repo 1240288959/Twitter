@@ -19,6 +19,7 @@ public class User {
     private String gender;
     private String mobile;
     private String email;
+
     private Date birthday;
     private String image;
     private int status;

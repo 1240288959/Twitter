@@ -13,7 +13,9 @@ function showMoreTwitter(page){
                 alert("没有更多推文了");
             }
             var ulDom=$("#twitterList");
+            console.log(msg.length);
             for(var i=0;i<msg.length;i++){
+                console.log(msg[i]);
                 var liDom=document.createElement("li");
                 // 显示了头像部分
                 $(liDom).attr("class","media");
