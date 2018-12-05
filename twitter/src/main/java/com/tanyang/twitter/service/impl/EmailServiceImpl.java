@@ -9,12 +9,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @Autowired
     private EmailConfig emailConfig;
@@ -31,11 +36,17 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage mimeMessage=mailSender.createMimeMessage();
         MimeMessageHelper messageHelper=null;
         try {
+            Context context = new Context();
+            context.setVariable("localHref",localHref);
+            context.setVariable("sendTo",sendTo);
+            String text = templateEngine.process("mail",context);
+            //System.out.println(text);
+
             messageHelper=new MimeMessageHelper(mimeMessage,true);
             messageHelper.setFrom(emailConfig.getEmailFrom());
             messageHelper.setTo(sendTo);
             messageHelper.setSubject(emailConfig.getTitle());
-            messageHelper.setText( "<html><head></head><body><a href='"+localHref+"/vertify?email="+sendTo+"'>点击下列链接进行验证</a></body></html>",true);
+            messageHelper.setText( text,true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
