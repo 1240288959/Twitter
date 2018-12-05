@@ -22,6 +22,6 @@ public class ServletTest extends HttpServlet {
         user.setBirthday(new Date(System.currentTimeMillis()));
         resp.setContentType("text/html;charset=utf-8");
 //        resp.getWriter().write(JSON.toString(user));
-        resp.getWriter().write(1/0);
+        resp.getWriter().write(user.toString());
     }
 }

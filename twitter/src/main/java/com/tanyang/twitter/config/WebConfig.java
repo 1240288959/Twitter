@@ -16,10 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +45,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        //registry.addViewController("/tologin").setViewName("login");
+        registry.addViewController("/tofile").setViewName("file");
     }
 
 /*    @Bean
@@ -71,7 +68,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     }
 
 /*    @Bean
-    public FilterRegistrationBean timeFilter() {
+    public FilterRegistrationBean loginFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
 
         LoginFilter loginFilter = new LoginFilter();
@@ -87,5 +84,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     @Bean
     public ServletListenerRegistrationBean<ListenerTest> servletListenerRegistrationBean() {
         return new ServletListenerRegistrationBean<ListenerTest>(new ListenerTest());
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        super.addCorsMappings(registry);
+        registry.addMapping("/").allowedOrigins("http://localhost:8088");//允许8088端口访问
     }
 }

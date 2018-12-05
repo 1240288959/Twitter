@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>file</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <style type="text/css">
+        button{
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: nav"></div>
+<h4 class="text-center">上传文件</h4>
+<form  class="col-sm-8 col-sm-offset-2" action="/file" id="myform" method="post" enctype="multipart/form-data">
+    <input id="fileupload" type="file" name="file"  accept="*"/>
+    <button type="submit"  class="btn btn-primary" style="float: right">提交</button>
+</form>
+
+</body>
+<script th:src="@{js/common/jquery.min.js}"></script>
+<script th:src="@{js/common/bootstrap.js}"></script>
+</html>
