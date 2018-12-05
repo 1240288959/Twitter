@@ -45,7 +45,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addViewController("/tofile").setViewName("file");
+        registry.addViewController("/toFile").setViewName("file");
+        registry.addViewController("/toWebSocket").setViewName("websocket");
     }
 
 /*    @Bean
