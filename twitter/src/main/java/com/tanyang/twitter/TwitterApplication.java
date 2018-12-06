@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
@@ -18,6 +19,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import java.util.EnumSet;
 
+@EnableScheduling
 @SpringBootApplication
 public class TwitterApplication {
 
