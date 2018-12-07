@@ -1,6 +1,7 @@
 package com.tanyang.twitter.control;
 
 import com.tanyang.twitter.pojo.User;
+import com.tanyang.twitter.service.EmailService;
 import com.tanyang.twitter.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class EmailControl {
 
     @Autowired
-    private EmailServiceImpl emailServiceImpl;
+    private EmailService emailServiceImpl;
 
     @RequestMapping("/sendMail")
     public void sendMail(HttpServletRequest request){

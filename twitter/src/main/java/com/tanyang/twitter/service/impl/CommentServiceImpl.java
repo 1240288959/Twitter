@@ -43,6 +43,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentById(String id){
-        return commentDao.findOne(id);
+        return commentDao.findById(id).get();
     }
 }

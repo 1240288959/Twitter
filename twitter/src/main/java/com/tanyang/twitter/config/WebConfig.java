@@ -5,7 +5,6 @@ import com.tanyang.twitter.interceptor.MyInterceptor;
 import com.tanyang.twitter.listener.ListenerTest;
 import com.tanyang.twitter.servlet.ServletTest;
 import org.springframework.beans.BeansException;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -24,27 +23,15 @@ import java.util.List;
 @Configuration
 @Component
 @ComponentScan
-public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
-    private ApplicationContext applicationContext;
-
-    public WebConfig(){
-        super();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
-    }
+public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**","/").excludePathPatterns("/tologin","/login","/static/**","/static/**/**","/toregister","/register","/vertify");
-        super.addInterceptors(registry);
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/*","/").excludePathPatterns("/tologin","/login","/static/*","/static/**/**","/toregister","/register","/vertify");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
         registry.addViewController("/toFile").setViewName("file");
         registry.addViewController("/toWebSocket").setViewName("websocket");
     }
@@ -68,7 +55,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         return new ServletRegistrationBean(new ServletTest(),"/servletTest");
     }
 
-/*    @Bean
+    @Bean
     public FilterRegistrationBean loginFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
 
@@ -80,7 +67,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registrationBean.setUrlPatterns(urls);
 
         return registrationBean;
-    }*/
+    }
 
     @Bean
     public ServletListenerRegistrationBean<ListenerTest> servletListenerRegistrationBean() {
@@ -89,7 +76,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        super.addCorsMappings(registry);
         registry.addMapping("/").allowedOrigins("http://localhost:8088");//允许8088端口访问
     }
 }

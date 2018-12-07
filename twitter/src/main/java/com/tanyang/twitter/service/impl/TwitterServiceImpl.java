@@ -50,7 +50,7 @@ public class TwitterServiceImpl implements TwitterService {
     public Twitter getTwitterById(String twitterid){
         Twitter twitter=null;
         try{
-            twitter=twitterDao.findOne(twitterid);
+            twitter=twitterDao.findById(twitterid).get();
         }catch (Exception e){
             e.printStackTrace();
         }

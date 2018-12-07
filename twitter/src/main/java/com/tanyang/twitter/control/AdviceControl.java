@@ -1,10 +1,11 @@
 package com.tanyang.twitter.control;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Api(value = "发送异常",tags={"异常接受测试"})
 @RestController
 @RequestMapping("/advices")
 public class AdviceControl {

@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
@@ -19,6 +20,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import java.util.EnumSet;
 
+@EnableSwagger2
 @EnableScheduling
 @SpringBootApplication
 public class TwitterApplication {

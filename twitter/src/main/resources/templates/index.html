@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8"/>
     <title>主页</title>
-    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script>
+        var page=1;
+    </script>
+    <script src="js/common/jquery.min.js"></script>
+    <script src="js/common/bootstrap.js"></script>
+    <script src="js/common/ajaxfileupload .js"></script>
+    <script src="js/modal-window-twitter.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/message.js"></script>
+    <script src="js/fileupload.js"></script>
+    <script src="js/picture-show-modal.js"></script>
 </head>
-<body onload="getunread();showMoreTwitter(page++)">
+<body onload="getunread();showMoreTwitter(page++);" >
 <div th:include="nav :: nav"></div>
 <div id="mymsg" class="col-sm-2">
     <div style="width: 210px;margin-bottom: 30px">
@@ -67,22 +78,10 @@
     <div th:include="pictureshowmodal :: pictureshowmodal"></div>
 </div>
 </body>
-<script th:src="@{js/common/jquery.min.js}"></script>
-<script th:src="@{js/common/bootstrap.js}"></script>
-<script th:src="@{js/common/ajaxfileupload .js}"></script>
-<script th:src="@{js/modal-window-twitter.js}"></script>
-<script th:src="@{js/index.js}"></script>
-<script th:src="@{js/message.js}"></script>
-<script th:src="@{js/fileupload.js}"></script>
-<script th:src="@{js/picture-show-modal.js}"></script>
 <script>
     $("#myModal").on("hidden",function () {
         $(this).removeData();
         $("#mydiv").remove();
     });
-</script>
-<script>
-    var page=1;
-
 </script>
 </html>

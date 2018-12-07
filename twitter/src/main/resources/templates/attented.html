@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8"/>
     <title>关注者页面</title>
-    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script src="js/common/jquery.min.js"></script>
+    <script src="js/common/bootstrap.js"></script>
+    <script src="js/attented.js"></script>
+    <script src="js/fileupload.js"></script>
+    <script src="js/common/ajaxfileupload .js"></script>
+    <script src="js/message.js"></script>
+    <script>
+        var page=1;
+    </script>
 </head>
 <body onload="getunread();showMoreAttented(page++)">
 <div th:include="nav :: nav"></div>
@@ -53,13 +62,4 @@
     </nav>
 </div>
 </body>
-<script th:src="@{js/common/jquery.min.js}"></script>
-<script th:src="@{js/common/bootstrap.js}"></script>
-<script th:src="@{js/attented.js}"></script>
-<script th:src="@{js/fileupload.js}"></script>
-<script th:src="@{js/common/ajaxfileupload .js}"></script>
-<script th:src="@{js/message.js}"></script>
-<script>
-    var page=1;
-</script>
 </html>

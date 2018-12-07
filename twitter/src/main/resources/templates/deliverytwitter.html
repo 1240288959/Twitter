@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8"/>
     <title>deliverytwitter</title>
-    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
     <style type="text/css">
         button{
             outline: none;
         }
     </style>
+    <script src="js/common/jquery.min.js"></script>
+    <script src="js/common/bootstrap.js"></script>
+    <script src="js/common/ajaxfileupload .js"></script>
+    <script src="js/deliverytwitter.js"></script>
 </head>
 <body>
 <div th:include="nav :: nav"></div>
@@ -27,8 +31,4 @@
 
 </div>
 </body>
-<script th:src="@{js/common/jquery.min.js}"></script>
-<script th:src="@{js/common/bootstrap.js}"></script>
-<script th:src="@{js/common/ajaxfileupload .js}"></script>
-<script th:src="@{js/deliverytwitter.js}"></script>
 </html>

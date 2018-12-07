@@ -29,7 +29,7 @@ public class AttentionServiceImpl implements AttentionService {
         List<String> list= attentionDao.getUserByAttent(id);
         for(String str:list){
             logger.info(str);
-            User user=userDao.findOne(str);
+            User user=userDao.findById(str).get();
             logger.info(user.toString());
             userlist.add(user);
         }
@@ -44,7 +44,7 @@ public class AttentionServiceImpl implements AttentionService {
         List<String> list= attentionDao.getUserPageByAttent(id,tstart,num);
         for(String str:list){
             logger.info(str);
-            User user=userDao.findOne(str);
+            User user=userDao.findById(str).get();
             logger.info(user.toString());
             userlist.add(user);
         }
@@ -54,8 +54,8 @@ public class AttentionServiceImpl implements AttentionService {
     @Override
     public boolean addAttented(String Attent, String Attented) {
         Attention attention=new Attention();
-        User uattent=userDao.findOne(Attent);
-        User uattented=userDao.findOne(Attented);
+        User uattent=userDao.findById(Attent).get();
+        User uattented=userDao.findById(Attented).get();
         attention.setAttent(uattent);
         attention.setAttented(uattented);
         try{
@@ -98,7 +98,7 @@ public class AttentionServiceImpl implements AttentionService {
         List<String> attentIdList=attentionDao.getAttentByAttented(attentedid);
         List<User> attentList=new ArrayList<>();
         for(String id:attentIdList){
-            attentList.add(userDao.findOne(id));
+            attentList.add(userDao.findById(id).get());
         }
         return attentList;
     }

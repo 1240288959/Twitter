@@ -7,9 +7,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@Component
-@ServletComponentScan
-@WebFilter(urlPatterns = "/tologin/*",filterName = "loginFilter")
 public class LoginFilter implements Filter{
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

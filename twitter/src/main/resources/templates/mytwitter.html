@@ -4,6 +4,17 @@
     <meta charset="UTF-8"/>
     <title>我的推文</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <script th:src="@{js/common/jquery.min.js}"></script>
+    <script th:src="@{js/common/bootstrap.js}"></script>
+    <script th:src="@{js/common/ajaxfileupload .js}"></script>
+    <script th:src="@{js/modal-window-twitter.js}"></script>
+    <script th:src="@{js/fileupload.js}"></script>
+    <script th:src="@{js/message.js}"></script>
+    <script th:src="@{js/mytwitter.js}"></script>
+    <script th:src="@{js/picture-show-modal.js}"></script>
+    <script>
+        var page=1;
+    </script>
 </head>
 <body onload="getunread();showMoreTwitter(page++)">
 <div th:include="nav :: nav"></div>
@@ -61,15 +72,4 @@
 <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 <div th:include="pictureshowmodal :: pictureshowmodal"></div>
 </body>
-<script th:src="@{js/common/jquery.min.js}"></script>
-<script th:src="@{js/common/bootstrap.js}"></script>
-<script th:src="@{js/common/ajaxfileupload .js}"></script>
-<script th:src="@{js/modal-window-twitter.js}"></script>
-<script th:src="@{js/fileupload.js}"></script>
-<script th:src="@{js/message.js}"></script>
-<script th:src="@{js/mytwitter.js}"></script>
-<script th:src="@{js/picture-show-modal.js}"></script>
-<script>
-    var page=1;
-</script>
 </html>

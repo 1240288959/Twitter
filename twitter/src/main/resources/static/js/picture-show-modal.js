@@ -2,6 +2,8 @@ var nowPic;
 
 function showPictureModal(picArea){
     console.log("调用了showPictureModal方法");
+    console.log($("#pictureShowModal"));
+    console.log($("#imgShow"))
     nowPic=$(picArea);
     $("#imgShow").attr("src",$(picArea).attr("src"));
     $("#pictureShowModal").modal("show");

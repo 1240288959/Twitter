@@ -4,6 +4,14 @@
     <meta charset="UTF-8"/>
     <title>他的主页</title>
     <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <script th:src="@{js/common/jquery.min.js}"></script>
+    <script th:src="@{js/common/bootstrap.js}"></script>
+    <script th:src="@{js/modal-window-twitter.js}"></script>
+    <script th:src="@{js/otherspage.js}"></script>
+    <script th:src="@{js/picture-show-modal.js}"></script>
+    <script>
+        var page=1;
+    </script>
 </head>
 <body th:onload="'showMoreTwitter(\''+${attenteduser.user.id}+'\',page++)'">
 <div th:include="nav :: nav"></div>
@@ -53,12 +61,4 @@
 <div th:include="twittermodelwindow :: twittermodelwindow"></div>
 <div th:include="pictureshowmodal :: pictureshowmodal"></div>
 </body>
-<script th:src="@{js/common/jquery.min.js}"></script>
-<script th:src="@{js/common/bootstrap.js}"></script>
-<script th:src="@{js/modal-window-twitter.js}"></script>
-<script th:src="@{js/otherspage.js}"></script>
-<script th:src="@{js/picture-show-modal.js}"></script>
-<script>
-    var page=1;
-</script>
 </html>

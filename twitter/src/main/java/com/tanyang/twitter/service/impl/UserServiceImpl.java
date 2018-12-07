@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
     public User findUser(String id) {
         User user=null;
         try{
-            user=userDao.findOne(id);
+            user=userDao.findById(id).get();
         }catch (Exception e){
             e.printStackTrace();
         }
